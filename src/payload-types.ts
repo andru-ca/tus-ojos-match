@@ -112,10 +112,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    menuLateral: MenuLateral;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    menuLateral: MenuLateralSelect<false> | MenuLateralSelect<true>;
   };
   locale: null;
   user: User & {
@@ -200,7 +202,15 @@ export interface Page {
       | null;
     media?: (string | null) | Media;
   };
-  layout: (CallToActionBlock | ContentBlock | MediaBlock | ArchiveBlock | FormBlock)[];
+  layout: (
+    | HeroGotasBlock
+    | CarruselTabBlock
+    | CallToActionBlock
+    | ContentBlock
+    | MediaBlock
+    | ArchiveBlock
+    | FormBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -436,6 +446,108 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroGotasBlock".
+ */
+export interface HeroGotasBlock {
+  /**
+   * Imagen de fondo para el hero
+   */
+  backgroundImage: string | Media;
+  /**
+   * Título principal del hero
+   */
+  mainTitle: string;
+  /**
+   * Imagen decorativa de gotas
+   */
+  gotasImage: string | Media;
+  /**
+   * Tags que aparecerán en el lado izquierdo
+   */
+  leftTags?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Tags que aparecerán en el lado derecho
+   */
+  rightTags?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'heroGotas';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CarruselTabBlock".
+ */
+export interface CarruselTabBlock {
+  /**
+   * Texto pequeño que aparece arriba del título
+   */
+  topText?: string | null;
+  /**
+   * Título principal de la sección
+   */
+  title: string;
+  /**
+   * Color de fondo de la sección (formato hex)
+   */
+  backgroundColor?: string | null;
+  /**
+   * Opciones que aparecerán en el tab RedOff
+   */
+  redOffOptions?:
+    | {
+        name: string;
+        image: string | Media;
+        description: string;
+        statTitle?: string | null;
+        statValue?: string | null;
+        statDescription?: string | null;
+        tipsTitle?: string | null;
+        tips?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Opciones que aparecerán en el tab DryOff
+   */
+  dryOffOptions?:
+    | {
+        name: string;
+        image: string | Media;
+        description: string;
+        statTitle?: string | null;
+        statValue?: string | null;
+        statDescription?: string | null;
+        tipsTitle?: string | null;
+        tips?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'carruselTab';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1082,6 +1194,8 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
+        heroGotas?: T | HeroGotasBlockSelect<T>;
+        carruselTab?: T | CarruselTabBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
@@ -1101,6 +1215,76 @@ export interface PagesSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeroGotasBlock_select".
+ */
+export interface HeroGotasBlockSelect<T extends boolean = true> {
+  backgroundImage?: T;
+  mainTitle?: T;
+  gotasImage?: T;
+  leftTags?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  rightTags?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CarruselTabBlock_select".
+ */
+export interface CarruselTabBlockSelect<T extends boolean = true> {
+  topText?: T;
+  title?: T;
+  backgroundColor?: T;
+  redOffOptions?:
+    | T
+    | {
+        name?: T;
+        image?: T;
+        description?: T;
+        statTitle?: T;
+        statValue?: T;
+        statDescription?: T;
+        tipsTitle?: T;
+        tips?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  dryOffOptions?:
+    | T
+    | {
+        name?: T;
+        image?: T;
+        description?: T;
+        statTitle?: T;
+        statValue?: T;
+        statDescription?: T;
+        tipsTitle?: T;
+        tips?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1635,6 +1819,10 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: string;
+  /**
+   * Logo del sitio. Si no se selecciona, se usará el logo por defecto.
+   */
+  logo?: (string | null) | Media;
   navItems?:
     | {
         link: {
@@ -1664,6 +1852,10 @@ export interface Header {
  */
 export interface Footer {
   id: string;
+  /**
+   * Logo del footer. Si no se selecciona, se usará el logo por defecto.
+   */
+  logo?: (string | null) | Media;
   navItems?:
     | {
         link: {
@@ -1689,9 +1881,75 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menuLateral".
+ */
+export interface MenuLateral {
+  id: string;
+  /**
+   * Título principal del menú lateral
+   */
+  titulo: string;
+  /**
+   * Subtítulo descriptivo del menú
+   */
+  subtitulo: string;
+  /**
+   * Pestañas para filtrar las farmacias (ej: RedOff, DryOff)
+   */
+  tabs: {
+    /**
+     * Nombre de la pestaña (ej: RedOff)
+     */
+    nombre: string;
+    /**
+     * Identificador único para la pestaña (ej: redoff)
+     */
+    slug: string;
+    id?: string | null;
+  }[];
+  /**
+   * Lista de farmacias donde se pueden comprar los productos
+   */
+  farmacias: {
+    /**
+     * Nombre de la farmacia
+     */
+    nombre: string;
+    /**
+     * Logo de la farmacia
+     */
+    logo: string | Media;
+    /**
+     * URL del sitio web de la farmacia
+     */
+    url: string;
+    /**
+     * Si está marcado, el enlace se abrirá en una nueva pestaña
+     */
+    abrirEnNuevaTab?: boolean | null;
+    /**
+     * Selecciona las pestañas (tabs) donde aparecerá esta farmacia
+     */
+    categorias?:
+      | {
+          /**
+           * Slug de la categoría (debe coincidir con el slug de una pestaña)
+           */
+          categoria: string;
+          id?: string | null;
+        }[]
+      | null;
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
+  logo?: T;
   navItems?:
     | T
     | {
@@ -1715,6 +1973,7 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
+  logo?: T;
   navItems?:
     | T
     | {
@@ -1726,6 +1985,39 @@ export interface FooterSelect<T extends boolean = true> {
               reference?: T;
               url?: T;
               label?: T;
+            };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "menuLateral_select".
+ */
+export interface MenuLateralSelect<T extends boolean = true> {
+  titulo?: T;
+  subtitulo?: T;
+  tabs?:
+    | T
+    | {
+        nombre?: T;
+        slug?: T;
+        id?: T;
+      };
+  farmacias?:
+    | T
+    | {
+        nombre?: T;
+        logo?: T;
+        url?: T;
+        abrirEnNuevaTab?: T;
+        categorias?:
+          | T
+          | {
+              categoria?: T;
+              id?: T;
             };
         id?: T;
       };
