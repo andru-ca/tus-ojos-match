@@ -2,6 +2,17 @@
 const config = {
   theme: {
     extend: {
+      colors: {
+        brand: {
+          primary: '#002330',
+          secondary: '#0F172A',
+          accent: '#F97316',
+          background: '#F0F5F5',
+        },
+        surface: '#F8FAFC',
+        muted: '#94A3B8',
+      },
+
       typography: () => ({
         DEFAULT: {
           css: [
@@ -18,25 +29,16 @@ const config = {
         base: {
           css: [
             {
-              h1: {
-                fontSize: '2.5rem',
-              },
-              h2: {
-                fontSize: '1.25rem',
-                fontWeight: 600,
-              },
+              h1: { fontSize: '2.5rem' },
+              h2: { fontSize: '1.25rem', fontWeight: 600 },
             },
           ],
         },
         md: {
           css: [
             {
-              h1: {
-                fontSize: '3.5rem',
-              },
-              h2: {
-                fontSize: '1.5rem',
-              },
+              h1: { fontSize: '3.5rem' },
+              h2: { fontSize: '1.5rem' },
             },
           ],
         },

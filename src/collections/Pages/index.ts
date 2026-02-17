@@ -4,11 +4,15 @@ import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { Archive } from '../../blocks/ArchiveBlock/config'
 import { CallToAction } from '../../blocks/CallToAction/config'
+import { CallToActionBlock } from '../../blocks/CallToActionBlock/config'
 import { Content } from '../../blocks/Content/config'
 import { FormBlock } from '../../blocks/Form/config'
 import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { HeroGotas } from '../../blocks/HeroGotas/config'
 import { CarruselTab } from '../../blocks/carrusel-tab/config'
+import { CardsBlock } from '../../blocks/CardsBlock/config'
+import { StepToStepBlock } from '../../blocks/StepToStepBlock/config'
+import { CarouselRecommendationBlock } from '../../blocks/CarouselRecommendationBlock/config'
 import { hero } from '@/heros/config'
 import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -74,7 +78,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [HeroGotas, CarruselTab, CallToAction, Content, MediaBlock, Archive, FormBlock],
+              blocks: [HeroGotas, CarruselTab, CallToAction, CallToActionBlock, StepToStepBlock, CarouselRecommendationBlock, Content, MediaBlock, Archive, FormBlock, CardsBlock],
               required: true,
               admin: {
                 initCollapsed: true,

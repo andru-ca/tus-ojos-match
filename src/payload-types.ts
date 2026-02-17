@@ -206,10 +206,14 @@ export interface Page {
     | HeroGotasBlock
     | CarruselTabBlock
     | CallToActionBlock
+    | CallToActionBlock
+    | StepToStepBlock
+    | CarouselRecommendationBlock
     | ContentBlock
     | MediaBlock
     | ArchiveBlock
     | FormBlock
+    | CardsBlock
   )[];
   meta?: {
     title?: string | null;
@@ -322,14 +326,6 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
-    square?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
     small?: {
       url?: string | null;
       width?: number | null;
@@ -347,14 +343,6 @@ export interface Media {
       filename?: string | null;
     };
     large?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    xlarge?: {
       url?: string | null;
       width?: number | null;
       height?: number | null;
@@ -554,7 +542,57 @@ export interface CarruselTabBlock {
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
-  richText?: {
+  /**
+   * Título principal de la sección
+   */
+  heading: string;
+  /**
+   * Descripción de la sección
+   */
+  description: string;
+  /**
+   * Imagen de fondo de la sección
+   */
+  backgroundImage: string | Media;
+  /**
+   * Cards informativas
+   */
+  cards: {
+    titleCard: string;
+    editorCardHTML?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'callToAction';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StepToStepBlock".
+ */
+export interface StepToStepBlock {
+  /**
+   * Imagen
+   */
+  ImagenStep: string | Media;
+  /**
+   * Título de la sección Paso a paso
+   */
+  titleSectionStep?: {
     root: {
       type: string;
       children: {
@@ -569,33 +607,56 @@ export interface CallToActionBlock {
     };
     [k: string]: unknown;
   } | null;
-  links?:
-    | {
-        link: {
-          type?: ('reference' | 'custom') | null;
-          newTab?: boolean | null;
-          reference?:
-            | ({
-                relationTo: 'pages';
-                value: string | Page;
-              } | null)
-            | ({
-                relationTo: 'posts';
-                value: string | Post;
-              } | null);
-          url?: string | null;
-          label: string;
-          /**
-           * Choose how the link should be rendered.
-           */
-          appearance?: ('default' | 'outline') | null;
-        };
-        id?: string | null;
-      }[]
-    | null;
+  /**
+   * Lista de Pasos
+   */
+  ListStep: {
+    titleStep: string;
+    descriptionStep: string;
+    id?: string | null;
+  }[];
   id?: string | null;
   blockName?: string | null;
-  blockType: 'cta';
+  blockType: 'stepToStep';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CarouselRecommendationBlock".
+ */
+export interface CarouselRecommendationBlock {
+  /**
+   * Título de la sección del Slider
+   */
+  titleSectionSlider?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Recomendaciones
+   */
+  recommendations: {
+    titleSlider?: string | null;
+    descriptionSlider?: string | null;
+    /**
+     * Imagen del Slider
+     */
+    imageSlider?: (string | null) | Media;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'carouselRecommendation';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -890,6 +951,85 @@ export interface Form {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardsBlock".
+ */
+export interface CardsBlock {
+  /**
+   * Título de la sección
+   */
+  titleSectionCards?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Cards informativas Productos
+   */
+  cardsInformation: {
+    /**
+     * Logotipo Producto
+     */
+    ImagenCardLogo?: (string | null) | Media;
+    /**
+     * Imagen principal
+     */
+    ImagenCards?: (string | null) | Media;
+    titleCardHTML?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    buttonCard: {
+      type?: ('reference' | 'custom') | null;
+      newTab?: boolean | null;
+      reference?:
+        | ({
+            relationTo: 'pages';
+            value: string | Page;
+          } | null)
+        | ({
+            relationTo: 'posts';
+            value: string | Post;
+          } | null);
+      url?: string | null;
+      label: string;
+      /**
+       * Choose how the link should be rendered.
+       */
+      appearance?: ('default' | 'outline') | null;
+    };
+    /**
+     * Fondo de la Card
+     */
+    backgroundCard?: (string | null) | Media;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'cards';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1197,10 +1337,14 @@ export interface PagesSelect<T extends boolean = true> {
         heroGotas?: T | HeroGotasBlockSelect<T>;
         carruselTab?: T | CarruselTabBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
+        callToAction?: T | CallToActionBlockSelect<T>;
+        stepToStep?: T | StepToStepBlockSelect<T>;
+        carouselRecommendation?: T | CarouselRecommendationBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        cards?: T | CardsBlockSelect<T>;
       };
   meta?:
     | T
@@ -1291,20 +1435,48 @@ export interface CarruselTabBlockSelect<T extends boolean = true> {
  * via the `definition` "CallToActionBlock_select".
  */
 export interface CallToActionBlockSelect<T extends boolean = true> {
-  richText?: T;
-  links?:
+  heading?: T;
+  description?: T;
+  backgroundImage?: T;
+  cards?:
     | T
     | {
-        link?:
-          | T
-          | {
-              type?: T;
-              newTab?: T;
-              reference?: T;
-              url?: T;
-              label?: T;
-              appearance?: T;
-            };
+        titleCard?: T;
+        editorCardHTML?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StepToStepBlock_select".
+ */
+export interface StepToStepBlockSelect<T extends boolean = true> {
+  ImagenStep?: T;
+  titleSectionStep?: T;
+  ListStep?:
+    | T
+    | {
+        titleStep?: T;
+        descriptionStep?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CarouselRecommendationBlock_select".
+ */
+export interface CarouselRecommendationBlockSelect<T extends boolean = true> {
+  titleSectionSlider?: T;
+  recommendations?:
+    | T
+    | {
+        titleSlider?: T;
+        descriptionSlider?: T;
+        imageSlider?: T;
         id?: T;
       };
   id?: T;
@@ -1372,6 +1544,34 @@ export interface FormBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardsBlock_select".
+ */
+export interface CardsBlockSelect<T extends boolean = true> {
+  titleSectionCards?: T;
+  cardsInformation?:
+    | T
+    | {
+        ImagenCardLogo?: T;
+        ImagenCards?: T;
+        titleCardHTML?: T;
+        buttonCard?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+        backgroundCard?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -1433,16 +1633,6 @@ export interface MediaSelect<T extends boolean = true> {
               filesize?: T;
               filename?: T;
             };
-        square?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
         small?:
           | T
           | {
@@ -1464,16 +1654,6 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
         large?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        xlarge?:
           | T
           | {
               url?: T;

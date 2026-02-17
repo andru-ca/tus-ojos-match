@@ -2,6 +2,7 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
@@ -13,7 +14,6 @@ import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { MenuLateral } from './MenuLateral/config'
 import { plugins } from './plugins'
-import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 
 const filename = fileURLToPath(import.meta.url)
@@ -57,7 +57,7 @@ export default buildConfig({
     },
   },
   // This config helps us configure global or default features that the other editors can inherit
-  editor: defaultLexical,
+  editor: lexicalEditor({}),
   db: mongooseAdapter({
     url: process.env.DATABASE_URL || '',
   }),
@@ -88,4 +88,6 @@ export default buildConfig({
     },
     tasks: [],
   },
+  
+  
 })

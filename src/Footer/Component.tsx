@@ -16,45 +16,29 @@ export async function Footer() {
   const logoUrl = logo?.url || null
 
   return (
-    <footer className="mt-auto bg-black text-white relative overflow-hidden">
+    <footer className="gap-32mt-auto bg-black text-white relative overflow-hidden">
       {/* Contenido del footer */}
-      <div className="container py-12 relative z-10 overflow-hidden">
-        {/* Texto de fondo grande con opacidad */}
-        <div 
-          className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-none overflow-hidden w-full opacity-20"
-        >
-          <h2 
-            className="whitespace-nowrap select-none uppercase text-white text-center tracking-[4px]"
-            style={{
-              fontFamily: '"Sequel Sans", sans-serif',
-              fontSize: '113.034px',
-              lineHeight: '169.551px',
-            }}
-          >
-            <span style={{ fontWeight: 100 }}>QUEDA</span>
-            <span style={{ fontWeight: 900 }}>MUCHO</span>
-            <span style={{ fontWeight: 100 }}>POR</span>
-            <span style={{ fontWeight: 900 }}>VER</span>
-          </h2>
-        </div>
+      <div className="container flex flex-col  gap-8 md:gap-24 py-12 relative z-10 overflow-hidden">
+
         {/* Header con logo y navegación */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-32 relative z-10">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8  relative z-10">
           <Link className="flex items-center" href="/">
             {logoUrl && logo ? (
               <Image
                 src={logoUrl}
                 alt={logo.alt || 'Logo'}
-                width={logo.width || 150}
+                width={200}
                 height={logo.height || 60}
-                className="h-auto max-h-16 w-auto"
+                className="h-auto w-[200px]"
+                style={{ height: 'auto' }}
                 unoptimized={logoUrl.endsWith('.svg')}
               />
             ) : (
-              <Logo loading="eager" priority="high" className="invert" />
+              <Logo loading="eager" priority="high" className="invert w-[200px]" />
             )}
           </Link>
 
-          <nav className="flex flex-wrap gap-6 md:gap-8">
+          <nav className="flex  md:flex-wrap lg:flex-row flex-col gap-6 md:gap-8">
             {navItems.map(({ link }, i) => {
               return (
                 <CMSLink 
@@ -67,11 +51,26 @@ export async function Footer() {
           </nav>
         </div>
 
+                {/* Texto de fondo grande con opacidad */}
+                <div 
+          className="w-full opacity-20"
+        >
+          <div 
+            className="flex flex-col md:flex-row whitespace-nowrap select-none uppercase text-white text-left md:text-center tracking-[4px] footer-text-large"
+            style={{
+              fontFamily: '"Sequel Sans", sans-serif',
+            }}
+          >
+            <span style={{ fontWeight: 100 }}>QUEDA</span>
+            <span style={{ fontWeight: 900 }}>MUCHO</span>
+            <span style={{ fontWeight: 100 }}>POR</span>
+            <span style={{ fontWeight: 900 }}>VER</span>
+          </div>
+        </div>
+
         {/* Footer bottom */}
         <div 
-          className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mt-32 border-t border-white/10 relative z-10"
-          style={{ paddingTop: 'calc(var(--spacing, 1rem) * 45)' }}
-        >
+          className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6   relative z-10">
           <div className="flex flex-row gap-1 items-center flex-wrap">
             <p className="text-white text-sm">¿Necesitas contactarte con nosotros?</p>
             <Link 

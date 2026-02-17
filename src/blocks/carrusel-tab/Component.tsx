@@ -111,7 +111,7 @@ export const CarruselTabComponent: React.FC<Props> = ({
 
             {/* Título */}
             {title && (
-              <h2 className="text-3xl md:text-4xl font-black uppercase mb-4">
+              <h2 className="uppercase mb-4 text-black">
                 {title}
               </h2>
             )}
@@ -132,7 +132,9 @@ export const CarruselTabComponent: React.FC<Props> = ({
                     alt="RedOff"
                     width={80}
                     height={30}
+                    sizes="100vw"
                     className="object-contain"
+                    style={{ width: 'auto', height: 'auto' }}
                   />
                 </button>
                 <button
@@ -149,6 +151,7 @@ export const CarruselTabComponent: React.FC<Props> = ({
                     width={80}
                     height={30}
                     className="object-contain"
+                    style={{ width: 'auto', height: 'auto' }}
                   />
                 </button>
               </div>
@@ -206,7 +209,9 @@ export const CarruselTabComponent: React.FC<Props> = ({
                   alt="Anterior"
                   width={20}
                   height={20}
+                  sizes="100vw"
                   className="object-contain"
+                  style={{ width: 'auto', height: 'auto' }}
                 />
               </button>
               <button
@@ -219,7 +224,9 @@ export const CarruselTabComponent: React.FC<Props> = ({
                   alt="Siguiente"
                   width={20}
                   height={20}
+                  sizes="100vw"
                   className="object-contain"
+                  style={{ width: 'auto', height: 'auto' }}
                 />
               </button>
               <button
@@ -232,7 +239,9 @@ export const CarruselTabComponent: React.FC<Props> = ({
                   alt={isPaused ? 'Reanudar' : 'Pausar'}
                   width={20}
                   height={20}
+                  sizes="100vw"
                   className="object-contain"
+                  style={{ width: 'auto', height: 'auto' }}
                 />
               </button>
             </div>
@@ -246,6 +255,7 @@ export const CarruselTabComponent: React.FC<Props> = ({
                   src={imageUrl}
                   alt={image.alt || currentOption.name || 'Symptom image'}
                   fill
+                  sizes="(max-width: 1024px) 100vw, 41.666667vw"
                   className="object-contain rounded-full"
                   priority
                 />

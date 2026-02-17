@@ -3,21 +3,29 @@ import React, { Fragment } from 'react'
 import type { Page } from '@/payload-types'
 
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
-import { CallToActionBlock } from '@/blocks/CallToAction/Component'
+import { CallToActionBlock as CTABlock } from '@/blocks/CallToAction/Component'
+import { CallToActionBlock } from '@/blocks/CallToActionBlock/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { HeroGotasComponent } from '@/blocks/HeroGotas/Component'
 import { CarruselTabComponent } from '@/blocks/carrusel-tab/Component'
+import { CardsBlock } from '@/blocks/CardsBlock/Component'
+import { StepToStepBlock } from '@/blocks/StepToStepBlock/Component'
+import { CarouselRecommendationBlock } from '@/blocks/CarouselRecommendationBlock/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
   content: ContentBlock,
-  cta: CallToActionBlock,
+  cta: CTABlock,
+  callToAction: CallToActionBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
   heroGotas: HeroGotasComponent,
   carruselTab: CarruselTabComponent,
+  cards: CardsBlock,
+  stepToStep: StepToStepBlock,
+  carouselRecommendation: CarouselRecommendationBlock,
 }
 
 export const RenderBlocks: React.FC<{

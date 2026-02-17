@@ -6,12 +6,14 @@ import { useMenuLateral } from '@/providers/MenuLateral'
 
 import type { Header as HeaderType, Page } from '@/payload-types'
 
-export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
+export const HeaderNav: React.FC<{ data: HeaderType; isMobile?: boolean }> = ({ data, isMobile = false }) => {
   const navItems = data?.navItems || []
   const { openMenu } = useMenuLateral()
 
   const getButtonStyles = (label: string | null | undefined) => {
-    const baseStyles = 'px-6 py-4 rounded-full text-base font-medium transition-all hover:opacity-90'
+    const baseStyles = isMobile 
+      ? 'px-6 py-4 rounded-full text-base font-medium transition-all hover:opacity-90 w-full text-center'
+      : 'px-6 py-4 rounded-full text-base font-medium transition-all hover:opacity-90'
     
     // "Donde comprar" tiene fondo azul y texto blanco
     if (label?.toLowerCase().includes('donde comprar')) {
@@ -31,7 +33,7 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   }
 
   return (
-    <nav className="flex gap-3 items-center">
+    <nav className={`flex ${isMobile ? 'flex-col' : 'flex-row'} gap-3 ${isMobile ? 'items-stretch' : 'items-center'}`}>
       {navItems.map(({ link }, i) => {
         const label = link?.label
         const href = getHref(link)

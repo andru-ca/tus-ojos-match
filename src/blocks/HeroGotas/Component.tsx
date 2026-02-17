@@ -56,7 +56,7 @@ export const HeroGotasComponent: React.FC<Props> = ({
             {leftTags && leftTags.length > 0 && leftTags.map((tag, index) => (
               <div
                 key={index}
-                className="px-6 py-3 rounded-full bg-white/50 backdrop-blur-sm text-[#005373] text-base font-medium whitespace-nowrap"
+                className="md:block hidden px-6 py-3 rounded-full bg-white/50 backdrop-blur-sm text-[#005373] text-base font-medium whitespace-nowrap"
               >
                 {tag.text}
               </div>
@@ -91,6 +91,7 @@ export const HeroGotasComponent: React.FC<Props> = ({
                     width={gotas.width || 600}
                     height={gotas.height || 400}
                     className="object-contain drop-shadow-2xl"
+                    style={{ width: 'auto', height: 'auto' }}
                     priority
                   />
                 </div>
@@ -103,7 +104,7 @@ export const HeroGotasComponent: React.FC<Props> = ({
             {rightTags && rightTags.length > 0 && rightTags.map((tag, index) => (
               <div
                 key={index}
-                className="px-6 py-3 rounded-full bg-white/50 backdrop-blur-sm text-[#005373] text-base font-medium whitespace-nowrap"
+                className="md:block hidden px-6 py-3 rounded-full bg-white/50 backdrop-blur-sm text-[#005373] text-base font-medium whitespace-nowrap"
               >
                 {tag.text}
               </div>

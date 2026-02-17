@@ -1,0 +1,37 @@
+@font-face {
+  
+  @font-face {
+    font-family: 'Sequel Sans';
+    src: url('/fonts/WOFF2/SequelSans-RomanDisp.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Sequel Sans Black';
+    src: url('/fonts/WOFF2/SequelSans-BlackDisp.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+  }
+
+
+  @font-face {
+    font-family: 'Nunito Sans';
+    src: url('/fonts/WOFF2/NunitoSans.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+
+
+  @font-face {
+    font-family: 'Nunito Sans';
+    src: url('/fonts/WOFF2/NunitoSans-Italic.woff2') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+  }
+
+}
