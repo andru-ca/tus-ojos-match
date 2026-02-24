@@ -10,17 +10,18 @@ import type { Header, Media } from '@/payload-types'
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
 import { getMediaUrl } from '@/utilities/getMediaUrl'
+import { useMenuLateral } from '@/providers/MenuLateral'
 
 interface HeaderClientProps {
   data: Header
 }
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
-  /* Storing the value in a useState to avoid hydration errors */
   const [theme, setTheme] = useState<string | null>(null)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [hasAdminBar, setHasAdminBar] = useState(false)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
+  const { openMenu } = useMenuLateral()
   const pathname = usePathname()
 
   useEffect(() => {
@@ -35,43 +36,91 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY
+      const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0
       setIsScrolled(scrollPosition > 50)
     }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    // Verificar posición inicial
+    handleScroll()
+
+    // Agregar listener con throttling para mejor rendimiento
+    let ticking = false
+    const throttledHandleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          handleScroll()
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+
+    window.addEventListener('scroll', throttledHandleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', throttledHandleScroll)
   }, [])
 
   useEffect(() => {
-    // Cerrar el menú móvil cuando cambia la ruta
-    setIsMobileMenuOpen(false)
-  }, [pathname])
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
+    // Detectar si el AdminBar está visible
+    const checkAdminBar = () => {
+      setHasAdminBar(document.documentElement.hasAttribute('data-admin-bar'))
+    }
+    
+    // Verificar inicialmente
+    checkAdminBar()
+    
+    // Observar cambios en el atributo
+    const observer = new MutationObserver(checkAdminBar)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-admin-bar'],
+    })
+    
+    return () => observer.disconnect()
+  }, [])
 
   const logo = data.logo as Media | undefined
-  // Usar URL relativa para evitar problemas de hidratación
-  const logoUrl = logo?.url || null
+  const logoTransparent = (data as Header & { logoTransparent?: string | Media | null }).logoTransparent as Media | undefined
+  const logoUrl = logo?.url ? getMediaUrl(logo.url) : null
+  const logoTransparentUrl = logoTransparent?.url ? getMediaUrl(logoTransparent.url) : null
+
+  // Verificar si estamos en la página principal
+  const isHomePage = pathname === '/'
+
+  // Mostrar logo transparente solo en la página principal cuando NO está scrolleado y existe logoTransparent
+  // En páginas internas siempre mostrar el logo principal
+  const shouldShowTransparentLogo = isHomePage && !isScrolled && logoTransparentUrl && logoTransparentUrl.length > 0 && logoTransparent
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled || isMobileMenuOpen ? 'bg-white shadow-md' : 'bg-transparent'
+      className={`fixed rounded-b-[16px] rounded-t-none left-0 right-0 z-50 transition-all duration-300 ${
+        hasAdminBar ? 'top-12' : 'top-0'
+      } ${
+        isScrolled ? 'bg-[#F0F5F5] shadow-md' : 'bg-transparent'
       }`}
       {...(theme ? { 'data-theme': theme } : {})}
     >
-      <div className="container mx-auto py-4 flex justify-between items-center">
-        <Link href="/">
-          {logoUrl && logo ? (
+      <div className="container mx-auto py-2 flex justify-between items-center gap-4">
+        <Link href="/" className="flex-shrink-0">
+          {shouldShowTransparentLogo ? (
             <Image
+              key="transparent-logo"
+              src={logoTransparentUrl}
+              alt={logoTransparent.alt || 'Logo'}
+              width={200}
+              height={logoTransparent.height || 50}
+              className="h-auto w-[200px] transition-opacity duration-300"
+              style={{ height: 'auto' }}
+              priority
+              unoptimized={logoTransparentUrl.endsWith('.svg')}
+            />
+          ) : logoUrl && logo ? (
+            <Image
+              key="normal-logo"
               src={logoUrl}
               alt={logo.alt || 'Logo'}
               width={200}
               height={logo.height || 50}
-              className="h-auto w-[200px]"
+              className="h-auto w-[200px] transition-opacity duration-300"
               style={{ height: 'auto' }}
               priority
               unoptimized={logoUrl.endsWith('.svg')}
@@ -80,49 +129,53 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             <Logo loading="eager" priority="high" className="invert dark:invert-0 w-[200px]" />
           )}
         </Link>
-        
-        {/* Menú de navegación desktop */}
-        <div className="hidden md:block">
-          <HeaderNav data={data} />
-        </div>
 
-        {/* Botón menú hamburguesa mobile */}
-        <button
-          onClick={toggleMobileMenu}
-          className={`md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 z-50 ${
-            isScrolled || isMobileMenuOpen ? 'text-[#005373]' : 'text-white'
-          }`}
-          aria-label="Toggle menu"
-          aria-expanded={isMobileMenuOpen}
-        >
-          <span
-            className={`block w-6 h-0.5 transition-all duration-300 ${
-              isMobileMenuOpen ? 'rotate-45 translate-y-2 bg-[#005373]' : 'bg-current'
-            }`}
-          />
-          <span
-            className={`block w-6 h-0.5 bg-current transition-all duration-300 ${
-              isMobileMenuOpen ? 'opacity-0' : ''
-            }`}
-          />
-          <span
-            className={`block w-6 h-0.5 transition-all duration-300 ${
-              isMobileMenuOpen ? '-rotate-45 -translate-y-2 bg-[#005373]' : 'bg-current'
-            }`}
-          />
-        </button>
+        {/* Menú de navegación (desktop y mobile en la barra) */}
+        <nav className="flex flex-1 justify-end min-w-0">
+          <HeaderNav data={data} isMobile={false} />
+        </nav>
+
+        {/* Call to action button (desktop): en el header */}
+        {(data.callToActionBtn ?? []).length > 0 && (
+          <div className="flex items-center shrink-0 btn-cta hidden md:block">
+            {(data.callToActionBtn ?? []).map(({ link }, i) => {
+              const label = link?.label
+              const ctaClassName =
+                'px-6 py-3 md:px-6 md:py-3 rounded-full text-sm md:text-base font-medium transition-all hover:opacity-90 bg-[#007FE8] text-white whitespace-nowrap'
+
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={openMenu}
+                  className={ctaClassName}
+                >
+                  {label}
+                </button>
+              )
+            })}
+          </div>
+        )}
       </div>
 
-      {/* Menú móvil */}
-      <div
-        className={`md:hidden fixed top-0 left-0 right-0 bottom-0 bg-white z-40 transition-transform duration-300 ease-in-out ${
-          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
-      >
-        <div className="container mx-auto pt-24 pb-8 px-4 h-full overflow-y-auto">
-          <HeaderNav data={data} isMobile={true} />
+      {/* Call to action button (mobile): flotante a la derecha */}
+      {(data.callToActionBtn ?? []).length > 0 && (
+        <div className="fixed bottom-6 right-4 z-40 md:hidden flex justify-end">
+          {(data.callToActionBtn ?? []).map(({ link }, i) => {
+            const label = link?.label
+            return (
+              <button
+                key={i}
+                type="button"
+                onClick={openMenu}
+                className="py-4 px-6 rounded-full text-base font-medium transition-all hover:opacity-90 bg-[#007FE8] text-white shadow-lg whitespace-nowrap"
+              >
+                {label}
+              </button>
+            )
+          })}
         </div>
-      </div>
+      )}
     </header>
   )
 }

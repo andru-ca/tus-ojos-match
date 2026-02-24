@@ -8,6 +8,7 @@ const config = {
           secondary: '#0F172A',
           accent: '#F97316',
           background: '#F0F5F5',
+          btnPrimary: '#007FE8',
         },
         surface: '#F8FAFC',
         muted: '#94A3B8',

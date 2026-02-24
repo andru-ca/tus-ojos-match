@@ -209,11 +209,15 @@ export interface Page {
     | CallToActionBlock
     | StepToStepBlock
     | CarouselRecommendationBlock
+    | HeaderProductoBlock
     | ContentBlock
     | MediaBlock
     | ArchiveBlock
     | FormBlock
     | CardsBlock
+    | FaqBlock
+    | ProductDetailsBlock
+    | ProductInfoBlock
   )[];
   meta?: {
     title?: string | null;
@@ -486,53 +490,76 @@ export interface CarruselTabBlock {
   /**
    * Título principal de la sección
    */
-  title: string;
+  title: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Una sola imagen global para la sección (segunda columna)
+   */
+  image: string | Media;
+  /**
+   * Lista de sintomas
+   */
+  options?:
+    | {
+        name: string;
+        description: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        statTitle?: string | null;
+        statValue?: string | null;
+        statDescription?: string | null;
+        recommendations: 'dryOff' | 'redOff';
+        consejos: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Condiciones
+   */
+  condition: string;
   /**
    * Color de fondo de la sección (formato hex)
    */
   backgroundColor?: string | null;
-  /**
-   * Opciones que aparecerán en el tab RedOff
-   */
-  redOffOptions?:
-    | {
-        name: string;
-        image: string | Media;
-        description: string;
-        statTitle?: string | null;
-        statValue?: string | null;
-        statDescription?: string | null;
-        tipsTitle?: string | null;
-        tips?:
-          | {
-              text: string;
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-      }[]
-    | null;
-  /**
-   * Opciones que aparecerán en el tab DryOff
-   */
-  dryOffOptions?:
-    | {
-        name: string;
-        image: string | Media;
-        description: string;
-        statTitle?: string | null;
-        statValue?: string | null;
-        statDescription?: string | null;
-        tipsTitle?: string | null;
-        tips?:
-          | {
-              text: string;
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-      }[]
-    | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'carruselTab';
@@ -611,6 +638,10 @@ export interface StepToStepBlock {
    * Lista de Pasos
    */
   ListStep: {
+    /**
+     * Icono del item
+     */
+    iconStep?: (string | null) | Media;
     titleStep: string;
     descriptionStep: string;
     id?: string | null;
@@ -657,6 +688,71 @@ export interface CarouselRecommendationBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'carouselRecommendation';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeaderProductoBlock".
+ */
+export interface HeaderProductoBlock {
+  /**
+   * Icono pequeño en la esquina superior izquierda
+   */
+  icon?: (string | null) | Media;
+  /**
+   * Título del producto
+   */
+  titleProduct: string;
+  /**
+   * Logotipo del producto
+   */
+  logoProduct?: (string | null) | Media;
+  /**
+   * Tags de síntomas que trata el producto
+   */
+  symptoms?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Imagen de la caja del producto
+   */
+  productBoxImage?: (string | null) | Media;
+  /**
+   * Principio activo del producto
+   */
+  principioActivo: string;
+  /**
+   * Forma Farmacéutica y presentación
+   */
+  formaPresentacion: string;
+  /**
+   * Dosis del producto
+   */
+  dosis: string;
+  buyButton: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?:
+      | ({
+          relationTo: 'pages';
+          value: string | Page;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: string | Post;
+        } | null);
+    url?: string | null;
+    label: string;
+    /**
+     * Choose how the link should be rendered.
+     */
+    appearance?: ('default' | 'outline') | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'headerProducto';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1033,6 +1129,178 @@ export interface CardsBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqBlock".
+ */
+export interface FaqBlock {
+  /**
+   * Intro
+   */
+  caption?: string | null;
+  /**
+   * Título de la sección
+   */
+  titleSectionFaq?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Faq informativas Productos
+   */
+  faqInformation: {
+    /**
+     * Pregunta
+     */
+    question: string;
+    /**
+     * Respuesta
+     */
+    answer: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faq';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductDetailsBlock".
+ */
+export interface ProductDetailsBlock {
+  /**
+   * Intro
+   */
+  caption?: string | null;
+  /**
+   * Título de la sección Productos
+   */
+  titleProductDetails?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Tabs informativas Productos
+   */
+  tabsInformation: {
+    /**
+     * Nombre de la pestaña
+     */
+    tabName: string;
+    /**
+     * Descripción de la pestaña
+     */
+    tabDescription: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    /**
+     * Documentos de la pestaña
+     */
+    archiveDocuments?: (string | Media)[] | null;
+    id?: string | null;
+  }[];
+  /**
+   * Imagen de la columna derecha
+   */
+  image: string | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'productDetails';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductInfoBlock".
+ */
+export interface ProductInfoBlock {
+  /**
+   * Intro
+   */
+  caption?: string | null;
+  /**
+   * Título de la sección
+   */
+  titleProductInfo?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Descripción de la sección
+   */
+  descriptionProductInfo?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Galería de Productos
+   */
+  galleryProductInfo: {
+    /**
+     * Imagen de la Galería
+     */
+    imageProductInfo: string | Media;
+    borderImageProduct?: ('border-rounded' | 'border-oval') | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'productInfo';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1340,11 +1608,15 @@ export interface PagesSelect<T extends boolean = true> {
         callToAction?: T | CallToActionBlockSelect<T>;
         stepToStep?: T | StepToStepBlockSelect<T>;
         carouselRecommendation?: T | CarouselRecommendationBlockSelect<T>;
+        headerProducto?: T | HeaderProductoBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
         cards?: T | CardsBlockSelect<T>;
+        faq?: T | FaqBlockSelect<T>;
+        productDetails?: T | ProductDetailsBlockSelect<T>;
+        productInfo?: T | ProductInfoBlockSelect<T>;
       };
   meta?:
     | T
@@ -1390,43 +1662,21 @@ export interface HeroGotasBlockSelect<T extends boolean = true> {
 export interface CarruselTabBlockSelect<T extends boolean = true> {
   topText?: T;
   title?: T;
+  image?: T;
+  options?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        statTitle?: T;
+        statValue?: T;
+        statDescription?: T;
+        recommendations?: T;
+        consejos?: T;
+        id?: T;
+      };
+  condition?: T;
   backgroundColor?: T;
-  redOffOptions?:
-    | T
-    | {
-        name?: T;
-        image?: T;
-        description?: T;
-        statTitle?: T;
-        statValue?: T;
-        statDescription?: T;
-        tipsTitle?: T;
-        tips?:
-          | T
-          | {
-              text?: T;
-              id?: T;
-            };
-        id?: T;
-      };
-  dryOffOptions?:
-    | T
-    | {
-        name?: T;
-        image?: T;
-        description?: T;
-        statTitle?: T;
-        statValue?: T;
-        statDescription?: T;
-        tipsTitle?: T;
-        tips?:
-          | T
-          | {
-              text?: T;
-              id?: T;
-            };
-        id?: T;
-      };
   id?: T;
   blockName?: T;
 }
@@ -1458,6 +1708,7 @@ export interface StepToStepBlockSelect<T extends boolean = true> {
   ListStep?:
     | T
     | {
+        iconStep?: T;
         titleStep?: T;
         descriptionStep?: T;
         id?: T;
@@ -1478,6 +1729,37 @@ export interface CarouselRecommendationBlockSelect<T extends boolean = true> {
         descriptionSlider?: T;
         imageSlider?: T;
         id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HeaderProductoBlock_select".
+ */
+export interface HeaderProductoBlockSelect<T extends boolean = true> {
+  icon?: T;
+  titleProduct?: T;
+  logoProduct?: T;
+  symptoms?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  productBoxImage?: T;
+  principioActivo?: T;
+  formaPresentacion?: T;
+  dosis?: T;
+  buyButton?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+        appearance?: T;
       };
   id?: T;
   blockName?: T;
@@ -1565,6 +1847,60 @@ export interface CardsBlockSelect<T extends boolean = true> {
               appearance?: T;
             };
         backgroundCard?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FaqBlock_select".
+ */
+export interface FaqBlockSelect<T extends boolean = true> {
+  caption?: T;
+  titleSectionFaq?: T;
+  faqInformation?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductDetailsBlock_select".
+ */
+export interface ProductDetailsBlockSelect<T extends boolean = true> {
+  caption?: T;
+  titleProductDetails?: T;
+  tabsInformation?:
+    | T
+    | {
+        tabName?: T;
+        tabDescription?: T;
+        archiveDocuments?: T;
+        id?: T;
+      };
+  image?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductInfoBlock_select".
+ */
+export interface ProductInfoBlockSelect<T extends boolean = true> {
+  caption?: T;
+  titleProductInfo?: T;
+  descriptionProductInfo?: T;
+  galleryProductInfo?:
+    | T
+    | {
+        imageProductInfo?: T;
+        borderImageProduct?: T;
         id?: T;
       };
   id?: T;
@@ -2003,7 +2339,31 @@ export interface Header {
    * Logo del sitio. Si no se selecciona, se usará el logo por defecto.
    */
   logo?: (string | null) | Media;
+  /**
+   * Logo cuando la barra está transparente (ej. versión clara para fondos oscuros). Si no se selecciona, se usa el logo principal.
+   */
+  logoTransparent?: (string | null) | Media;
   navItems?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?:
+            | ({
+                relationTo: 'pages';
+                value: string | Page;
+              } | null)
+            | ({
+                relationTo: 'posts';
+                value: string | Post;
+              } | null);
+          url?: string | null;
+          label: string;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  callToActionBtn?:
     | {
         link: {
           type?: ('reference' | 'custom') | null;
@@ -2056,6 +2416,28 @@ export interface Footer {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Copyright del footer
+   */
+  copyright: string;
+  /**
+   * Subfooter del footer
+   */
+  subFooter: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2074,53 +2456,47 @@ export interface MenuLateral {
    */
   subtitulo: string;
   /**
-   * Pestañas para filtrar las farmacias (ej: RedOff, DryOff)
+   * Farmacias donde se puede comprar DryOff
    */
-  tabs: {
-    /**
-     * Nombre de la pestaña (ej: RedOff)
-     */
-    nombre: string;
-    /**
-     * Identificador único para la pestaña (ej: redoff)
-     */
-    slug: string;
-    id?: string | null;
-  }[];
+  dryOffFarmacias?:
+    | {
+        /**
+         * Nombre de la farmacia
+         */
+        nombre: string;
+        /**
+         * Logo
+         */
+        logo: string | Media;
+        /**
+         * URL del sitio web
+         */
+        url: string;
+        abrirEnNuevaTab?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
   /**
-   * Lista de farmacias donde se pueden comprar los productos
+   * Farmacias donde se puede comprar RedOff
    */
-  farmacias: {
-    /**
-     * Nombre de la farmacia
-     */
-    nombre: string;
-    /**
-     * Logo de la farmacia
-     */
-    logo: string | Media;
-    /**
-     * URL del sitio web de la farmacia
-     */
-    url: string;
-    /**
-     * Si está marcado, el enlace se abrirá en una nueva pestaña
-     */
-    abrirEnNuevaTab?: boolean | null;
-    /**
-     * Selecciona las pestañas (tabs) donde aparecerá esta farmacia
-     */
-    categorias?:
-      | {
-          /**
-           * Slug de la categoría (debe coincidir con el slug de una pestaña)
-           */
-          categoria: string;
-          id?: string | null;
-        }[]
-      | null;
-    id?: string | null;
-  }[];
+  redOffFarmacias?:
+    | {
+        /**
+         * Nombre de la farmacia
+         */
+        nombre: string;
+        /**
+         * Logo
+         */
+        logo: string | Media;
+        /**
+         * URL del sitio web
+         */
+        url: string;
+        abrirEnNuevaTab?: boolean | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -2130,7 +2506,22 @@ export interface MenuLateral {
  */
 export interface HeaderSelect<T extends boolean = true> {
   logo?: T;
+  logoTransparent?: T;
   navItems?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+            };
+        id?: T;
+      };
+  callToActionBtn?:
     | T
     | {
         link?:
@@ -2168,6 +2559,8 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  copyright?: T;
+  subFooter?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -2179,26 +2572,22 @@ export interface FooterSelect<T extends boolean = true> {
 export interface MenuLateralSelect<T extends boolean = true> {
   titulo?: T;
   subtitulo?: T;
-  tabs?:
-    | T
-    | {
-        nombre?: T;
-        slug?: T;
-        id?: T;
-      };
-  farmacias?:
+  dryOffFarmacias?:
     | T
     | {
         nombre?: T;
         logo?: T;
         url?: T;
         abrirEnNuevaTab?: T;
-        categorias?:
-          | T
-          | {
-              categoria?: T;
-              id?: T;
-            };
+        id?: T;
+      };
+  redOffFarmacias?:
+    | T
+    | {
+        nombre?: T;
+        logo?: T;
+        url?: T;
+        abrirEnNuevaTab?: T;
         id?: T;
       };
   updatedAt?: T;

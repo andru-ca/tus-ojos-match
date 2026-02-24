@@ -1,0 +1,47 @@
+/* Solo para el RichText de consejos: icono 👉 en listas */
+.consejos-richtext ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.consejos-richtext ul li {
+  position: relative;
+  padding-left: 1.8rem;
+  font-size: var(--Body-Small-fontSize);
+  color: var(--Text-text-primary);
+  line-height: var(--Body-Small-lineHeight);  
+}
+
+.consejos-richtext ul li::before {
+  content: '👉';
+  position: absolute;
+  left: 0;
+}
+
+.consejos-richtext ol {
+  list-style: none;
+  padding-left: 0;
+  counter-reset: consejos-counter;
+}
+
+.consejos-richtext ol li {
+  position: relative;
+  padding-left: 1.5rem;
+  counter-increment: consejos-counter;
+}
+
+.consejos-richtext ol li::before {
+  content: '👉';
+  position: absolute;
+  left: 0;
+}
+
+.description-richtext{
+  margin-bottom: 16px;
+
+}
+
+.description-richtext p{
+  margin:0;
+
+}

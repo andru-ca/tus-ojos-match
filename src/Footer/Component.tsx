@@ -7,9 +7,12 @@ import type { Footer, Media } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
+import RichText from '@/components/RichText'
 
 export async function Footer() {
-  const footerData: Footer = await getCachedGlobal('footer', 1)()
+ 
+  const footerData = (await getCachedGlobal('footer', 1)()) as Footer
+
 
   const navItems = footerData?.navItems || []
   const logo = footerData?.logo as Media | undefined
@@ -70,24 +73,28 @@ export async function Footer() {
 
         {/* Footer bottom */}
         <div 
-          className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6   relative z-10">
+          className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative z-10">
           <div className="flex flex-row gap-1 items-center flex-wrap">
-            <p className="text-white text-sm">¿Necesitas contactarte con nosotros?</p>
-            <Link 
-              href="https://laboratoriochile.cl" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white hover:opacity-80 transition-opacity text-sm"
-            >
-              Visítanos en laboratoriochile.cl
-            </Link>
+          {footerData?.copyright && (
+            <p className="text-white/60 text-xs md:text-sm">
+              {footerData.copyright}
+            </p>
+          )}
           </div>
 
-          <p className="text-white/60 text-xs md:text-sm">
-            © 2025 Laboratorio Chile | Teva. Todos los derechos reservados
-          </p>
         </div>
       </div>
+
+      {/* Barra subfooter */}
+      {footerData?.subFooter && (
+        <div className="relative z-10 bg-[#002330] ">
+          <div className="container py-4 flex flex-col items-center gap-4">
+            <div className="text-white/70 text-xs md:text-sm [&_.payload-richtext]:max-w-none">
+              <RichText data={footerData.subFooter} enableGutter={false} />
+            </div>
+          </div>
+        </div>
+      )}
     </footer>
   )
 }

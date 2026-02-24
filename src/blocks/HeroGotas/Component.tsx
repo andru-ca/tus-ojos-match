@@ -69,16 +69,9 @@ export const HeroGotasComponent: React.FC<Props> = ({
               {/* Título dividido en líneas */}
               <div className="text-center">
                 {titleLines.map((line, index) => (
-                  <h1
-                    key={index}
-                    className="font-black text-white uppercase leading-none tracking-tighter"
-                    style={{ 
-                      fontSize: 'clamp(80px, 10vw, 160px)',
-                      textShadow: '0 2px 10px rgba(0,0,0,0.1)'
-                    }}
-                  >
+                  <div key={index} className="heading-hero text-white uppercase">
                     {line}
-                  </h1>
+                  </div>
                 ))}
               </div>
 

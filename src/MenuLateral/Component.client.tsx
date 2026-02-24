@@ -11,34 +11,19 @@ interface MenuLateralClientProps {
   onClose: () => void
 }
 
+const TABS_UI = [
+  { slug: 'dryoff', nombre: 'DryOff' },
+  { slug: 'redoff', nombre: 'RedOff' },
+] as const
+
 export const MenuLateralClient: React.FC<MenuLateralClientProps> = ({ data, isOpen, onClose }) => {
-  const [tabActiva, setTabActiva] = useState<string>('')
+  const [tabActiva, setTabActiva] = useState<string>('dryoff')
 
-  // Debug: Log de los datos recibidos
-  useEffect(() => {
-    if (isOpen) {
-      console.log('📋 MenuLateral - Datos recibidos:', {
-        titulo: data.titulo,
-        subtitulo: data.subtitulo,
-        tabs: data.tabs,
-        farmacias: data.farmacias,
-        tabActiva,
-      })
-    }
-  }, [isOpen, data, tabActiva])
-
-  // Establecer la primera tab como activa por defecto
-  useEffect(() => {
-    if (data.tabs && data.tabs.length > 0 && !tabActiva) {
-      setTabActiva(data.tabs[0].slug)
-    }
-  }, [data.tabs, tabActiva])
-
-  // Filtrar farmacias según la tab activa
-  const farmaciasFiltradas = data.farmacias?.filter((farmacia) => {
-    if (!farmacia.categorias || farmacia.categorias.length === 0) return true
-    return farmacia.categorias.some((cat) => cat.categoria === tabActiva)
-  })
+  // Farmacias según la pestaña activa (DryOff o RedOff)
+  const farmaciasFiltradas =
+    tabActiva === 'dryoff'
+      ? (data.dryOffFarmacias ?? [])
+      : (data.redOffFarmacias ?? [])
 
   return (
     <>
@@ -52,7 +37,7 @@ export const MenuLateralClient: React.FC<MenuLateralClientProps> = ({ data, isOp
 
       {/* Panel lateral */}
       <div
-        className={`fixed top-0 right-0 h-full w-full md:w-[480px] bg-white z-50 shadow-2xl transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 right-0 h-full w-full md:w-[480px] bg-white z-60 shadow-2xl transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -60,7 +45,7 @@ export const MenuLateralClient: React.FC<MenuLateralClientProps> = ({ data, isOp
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900">{data.titulo}</h2>
+              <div className="text-2xl font-bold text-gray-900">{data.titulo}</div>
               <p className="text-sm text-gray-600 mt-1">{data.subtitulo}</p>
             </div>
             <button
@@ -72,30 +57,26 @@ export const MenuLateralClient: React.FC<MenuLateralClientProps> = ({ data, isOp
             </button>
           </div>
 
-          {/* Tabs */}
-          {data.tabs && data.tabs.length > 0 && (
-            <div className="px-6 pt-4 inline-block w-full">
-              <div className="flex gap-3.5 p-2 rounded-full bg-[#F1F1F2]">
-                {data.tabs.map((tab) => (
-                  <button
-                    key={tab.slug}
-                    onClick={() => setTabActiva(tab.slug)}
-                    className={`py-4 px-6 rounded-full text-base font-medium transition-all ${
-                      tabActiva === tab.slug
-                        ? 'text-[#005373]'
-                        : 'text-[#005373] hover:opacity-80'
-                    }`}
-                    style={{
-                      backgroundColor: tabActiva === tab.slug ? '#FFFFFF' : 'transparent',
-                      width: '50%'
-                    }}
-                  >
-                    {tab.nombre}
-                  </button>
-                ))}
-              </div>
+          {/* Tabs DryOff / RedOff */}
+          <div className="px-6 pt-4 inline-block w-full">
+            <div className="flex gap-3.5 p-2 rounded-full bg-[#F1F1F2]">
+              {TABS_UI.map((tab) => (
+                <button
+                  key={tab.slug}
+                  onClick={() => setTabActiva(tab.slug)}
+                  className={`py-4 px-6 rounded-full text-base font-medium transition-all ${
+                    tabActiva === tab.slug ? 'text-[#005373]' : 'text-[#005373] hover:opacity-80'
+                  }`}
+                  style={{
+                    backgroundColor: tabActiva === tab.slug ? '#FFFFFF' : 'transparent',
+                    width: '50%',
+                  }}
+                >
+                  {tab.nombre}
+                </button>
+              ))}
             </div>
-          )}
+          </div>
 
           {/* Lista de farmacias */}
           <div className="flex-1 overflow-y-auto p-6">

@@ -5,7 +5,7 @@ import type { PayloadAdminBarProps, PayloadMeUser } from '@payloadcms/admin-bar'
 import { cn } from '@/utilities/ui'
 import { useSelectedLayoutSegments } from 'next/navigation'
 import { PayloadAdminBar } from '@payloadcms/admin-bar'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 import './index.scss'
@@ -46,17 +46,26 @@ export const AdminBar: React.FC<{
     setShow(Boolean(user?.id))
   }, [])
 
+  // Exponer el estado del AdminBar al DOM para que el header pueda detectarlo
+  useEffect(() => {
+    if (show) {
+      document.documentElement.setAttribute('data-admin-bar', 'visible')
+    } else {
+      document.documentElement.removeAttribute('data-admin-bar')
+    }
+  }, [show])
+
   return (
     <div
-      className={cn(baseClass, 'py-2 bg-black text-white', {
+      className={cn(baseClass, 'fixed top-0 left-0 right-0 z-[60] h-12 flex items-center bg-black text-white', {
         block: show,
         hidden: !show,
       })}
     >
-      <div className="container">
+      <div className="container flex items-center min-h-0">
         <PayloadAdminBar
           {...adminBarProps}
-          className="py-2 text-white"
+          className="text-white"
           classNames={{
             controls: 'font-medium text-white',
             logo: 'text-white',

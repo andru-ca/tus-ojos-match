@@ -27,6 +27,13 @@ const nextConfig = {
       '.mjs': ['.mts', '.mjs'],
     }
 
+    // worker_threads es un módulo de Node; no existe en el bundle del cliente.
+    // Pino (usado por Payload) lo requiere; evitar que Next intente resolverlo en cliente.
+    webpackConfig.resolve.fallback = {
+      ...webpackConfig.resolve?.fallback,
+      worker_threads: false,
+    }
+
     return webpackConfig
   },
   reactStrictMode: true,

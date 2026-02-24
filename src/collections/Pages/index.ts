@@ -13,11 +13,16 @@ import { CarruselTab } from '../../blocks/carrusel-tab/config'
 import { CardsBlock } from '../../blocks/CardsBlock/config'
 import { StepToStepBlock } from '../../blocks/StepToStepBlock/config'
 import { CarouselRecommendationBlock } from '../../blocks/CarouselRecommendationBlock/config'
+import { HeaderProductoBlock } from '../../blocks/HeaderProductoBlock/config'
+import { FaqBlock } from '../../blocks/FaqBlock/config'
+import { ProductDetailsBlock } from '../../blocks/ProductDetailsBlock/config'
+import { ProductInfoBlock } from '../../blocks/ProductInfoBlock/config'
 import { hero } from '@/heros/config'
 import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
+import { normalizeProductDetailsLexical } from './hooks/normalizeProductDetailsLexical'
 
 import {
   MetaDescriptionField,
@@ -78,7 +83,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [HeroGotas, CarruselTab, CallToAction, CallToActionBlock, StepToStepBlock, CarouselRecommendationBlock, Content, MediaBlock, Archive, FormBlock, CardsBlock],
+              blocks: [HeroGotas, CarruselTab, CallToAction, CallToActionBlock, StepToStepBlock, CarouselRecommendationBlock, HeaderProductoBlock, Content, MediaBlock, Archive, FormBlock, CardsBlock, FaqBlock, ProductDetailsBlock, ProductInfoBlock],
               required: true,
               admin: {
                 initCollapsed: true,
@@ -128,6 +133,7 @@ export const Pages: CollectionConfig<'pages'> = {
   hooks: {
     afterChange: [revalidatePage],
     beforeChange: [populatePublishedAt],
+    afterRead: [normalizeProductDetailsLexical],
     afterDelete: [revalidateDelete],
   },
   versions: {

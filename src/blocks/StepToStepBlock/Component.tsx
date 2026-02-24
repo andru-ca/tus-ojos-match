@@ -1,16 +1,20 @@
 import React from 'react'
 import Image from 'next/image'
 import RichText from '@/components/RichText'
+import './styles.css'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 import type { Media } from '@/payload-types'
+
+type StepItem = {
+  titleStep?: string | null
+  descriptionStep?: string | null
+  iconStep?: string | Media | null
+}
 
 type Props = {
   titleSectionStep?: DefaultTypedEditorState | null
   ImagenStep?: string | Media | null
-  ListStep?: {
-    titleStep?: string | null
-    descriptionStep?: string | null
-  }[] | null
+  ListStep?: StepItem[] | null
 }
 
 export const StepToStepBlock: React.FC<Props> = (props) => {
@@ -23,15 +27,15 @@ export const StepToStepBlock: React.FC<Props> = (props) => {
     <section className="relative w-full bg-brand-background">
       <div className="container py-16">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 py-8 items-start pb-16">
-        {/* Imagen a la izquierda */}
+        {/* Imagen a la izquierda con máscara de gota */}
         {stepImageUrl && stepImage && (
-          <div className="relative w-full aspect-square">
+          <div className="relative w-full aspect-[584/604] step-to-step__image-mask">
             <Image
               src={stepImageUrl}
               alt={stepImage.alt || 'Step image'}
               fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover rounded-[24px]"
+              sizes="(max-width: 584px) 100vw, 50vw"
+              className="object-cover"
             />
           </div>
         )}
@@ -45,12 +49,26 @@ export const StepToStepBlock: React.FC<Props> = (props) => {
         </div>
       )}
 
-          {ListStep && ListStep.map((step: { titleStep?: string | null; descriptionStep?: string | null }, index: number) => (
-            <div key={index} className="flex flex-row gap-4 bg-white p-5 rounded-[16px]">
-              <div className="flex-shrink-0">
-                <span className="text-brand-primary">0{index + 1}</span> 
-              </div>
+          {ListStep && ListStep.map((step: StepItem, index: number) => {
+            const iconMedia = typeof step.iconStep === 'object' && step.iconStep !== null ? step.iconStep as Media : undefined
+            const iconUrl = iconMedia?.url ?? null
+
+            return (
+            <div key={index} className="flex flex-row gap-4 bg-white p-4 rounded-[16px]">
+                {iconUrl && (
+                  <div className="flex-shrink-0">
+                    <Image
+                      src={iconUrl}
+                      alt={iconMedia?.alt ?? step.titleStep ?? 'Step icon'}
+                      width={120}
+                      height={104}
+                      className="object-contain"
+                    />
+                  </div>
+                )}
+
               <div className="flex flex-col gap-1 flex-1">
+              <span className="text-brand-primary">0{index + 1}</span>
                 {step.titleStep && (
                   <h6 className="font-bold text-brand-primary m-0">
                     {step.titleStep}
@@ -63,7 +81,8 @@ export const StepToStepBlock: React.FC<Props> = (props) => {
                 )}
               </div>
             </div>
-          ))}
+            )
+          })}
         </div>
       </div>
       </div>

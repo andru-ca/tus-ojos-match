@@ -19,13 +19,16 @@
   h4,
   h5,
   h6 {
-    font-family:'Sequel Sans', sans-serif;
-    
-
+    font-family:'Sequel Sans', sans-serif; 
   }
   body{
     font-family:'Nunito Sans', sans-serif;
   }
+
+a{
+  color:#0063B5;
+}
+
   p{
     font-family: 'Nunito Sans', sans-serif;
     font-size: var(--Body-Medium-fontSize);
@@ -33,6 +36,7 @@
   }
 }
 
+/* Rick Text */
 
 .payload-richtext {
   overflow-wrap: break-word;
@@ -82,11 +86,83 @@ text-underline-position: from-font;
 word-break: break-word;
 }
 
+.payload-richtext ul,
+.payload-richtext ol {
+  margin: 0;
+  padding-left: 2em;
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+.payload-richtext ul {
+  list-style-type: disc;
+}
+
+.payload-richtext ol {
+  list-style-type: decimal;
+}
+
+.payload-richtext li {
+  margin: 0.5em 0;
+  line-height: 1.6;
+}
+
+.payload-richtext ul ul,
+.payload-richtext ol ol,
+.payload-richtext ul ol,
+.payload-richtext ol ul {
+  margin: 0.5em 0;
+}
+
+.payload-richtext ul[data-type='checklist'] {
+  list-style: none;
+  padding-left: 0;
+}
+
+.payload-richtext ul[data-type='checklist'] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+
+.payload-richtext ul[data-type='checklist'] li::before {
+  content: '☐';
+  font-size: 1.2em;
+  line-height: 1;
+  margin-top: 0.1em;
+}
+
+.payload-richtext ul[data-type='checklist'] li[data-checked='true']::before {
+  content: '☑';
+}
+
+.payload-richtext blockquote {
+  margin: 1em 0;
+  padding-left: 1em;
+  border-left: 4px solid #e5e7eb;
+  font-style: italic;
+  color: #6b7280;
+}
+
+.payload-richtext hr {
+  margin: 2em 0;
+  border: none;
+  border-top: 1px solid #e5e7eb;
+}
+
+
+h1{
+  font-size: var(--Display-Small-fontSize);
+  font-weight: 400;
+  letter-spacing: var(--Display-Small-letterSpacing);
+  line-height: var(--Display-Small-lineHeight);
+  text-transform: uppercase;
+}
+
 
 h2{
    font-size: var(--Display-Small-fontSize);
    font-weight: 100;
-   letter-spacing: var(--Display-Small-letterSpacing);
+   letter-spacing: -1px;
    line-height: var(--Display-Small-lineHeight);
    text-transform: uppercase;
 }
@@ -114,7 +190,53 @@ strong{
 }
 
 
+/*Hero */
 
+
+.heading-hero {
+color: #FFF;
+text-align: center;
+font-family: 'Sequel Sans Black', sans-serif;
+font-size: 160px;
+font-style: normal;
+font-weight: 900;
+line-height: 160px; 
+}
+@media (max-width: 768px) {
+  .heading-hero {
+    font-size: 86.474px;
+    font-weight: 900;
+    line-height: 86.474px; 
+    text-align: center;
+    }
+}
+/*FAQ*/
+
+.question-title{
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 20px; 
+  font-weight: 400;
+  color: var(--Text-text-primary);
+}
+
+.text-answer {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: var(--Body-Medium-fontSize);
+  line-height: var(--Body-Medium-lineHeight);
+  color: var(--Text-text-secondary);
+}
+
+
+/*Tabs*/
+
+.label-tab{
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: var(--Label-Large-fontSize);
+  font-weight: 500;
+  line-height: var(--Label-Large-lineHeight);
+  letter-spacing: var(--Label-Large-letterSpacing);
+  color: var(--Text-text-brand);
+}
 
 
 @layer components {
@@ -320,6 +442,24 @@ html[data-theme='light'] {
 
 
 :root{
+
+
+  --Text-text-primary: #002330;
+  --Text-text-secondary: #4D5358;
+  --Text-text-placeholder: #A2A9B0;
+  --Text-text-on-color: #FFFFFF;
+  --Text-text-on-color-secondary: #FFFFFF72;
+  --Text-text-on-color-disabled: #878D96;
+  --Text-text-helper: #697077;
+  --Text-text-error: #EC4135;
+  --Text-text-inverse: #FFFFFF;
+  --Text-text-disabled: #12161925;
+  --Text-text-brand: #005373;
+  --Text-text-brand-inverse: #9FD242;  
+
+
+
+
 
   /*Display Large*/
   --Display-Large-fontFamily: 'Nunito Sans', sans-serif;

@@ -40,6 +40,15 @@ export const StepToStepBlock: Block = {
       },
       fields: [
         {
+          name: "iconStep",
+          type: 'upload',
+          label: 'Icono',
+          relationTo: 'media',
+          admin: {
+            description: 'Icono del item',
+          },
+        },
+        {
           name: 'titleStep',
           type: 'text',
           label: 'Título',

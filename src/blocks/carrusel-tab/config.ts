@@ -1,4 +1,41 @@
 import type { Block } from 'payload'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
+
+/** Estado vacío válido para el editor Lexical del título (evita "value is not an object"). */
+export const emptyCarruselTabTitleLexicalState = {
+  root: {
+    type: 'root' as const,
+    children: [
+      {
+        type: 'paragraph' as const,
+        children: [
+          {
+            type: 'text' as const,
+            detail: 0,
+            format: 0,
+            mode: 'normal' as const,
+            style: '',
+            text: '',
+            version: 1,
+          },
+        ],
+        direction: 'ltr' as const,
+        format: '',
+        indent: 0,
+        textFormat: 0,
+        version: 1,
+      },
+    ],
+    direction: 'ltr' as const,
+    format: '',
+    indent: 0,
+    version: 1,
+  },
+}
+
+
+
+
 
 export const CarruselTab: Block = {
   slug: 'carruselTab',
@@ -14,11 +51,97 @@ export const CarruselTab: Block = {
     },
     {
       name: 'title',
-      type: 'text',
+      type: 'richText',
       label: 'Título Principal',
       required: true,
+      editor: lexicalEditor({}),
+      defaultValue: emptyCarruselTabTitleLexicalState,
       admin: {
         description: 'Título principal de la sección',
+      },
+    },
+    {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Imagen',
+      required: true,
+      admin: {
+        description: 'Una sola imagen global para la sección (segunda columna)',
+      },
+    },
+    // Lista única de opciones con su contenido
+    {
+      name: 'options',
+      type: 'array',
+      label: 'Sintomas',
+      minRows: 1,
+      admin: {
+        description: 'Lista de sintomas',
+      },
+      fields: [
+        {
+          name: 'name',
+          type: 'text',
+          label: 'Nombre del Sintoma',
+          required: true,
+        },
+        {
+          name: 'description',
+          type: 'richText',
+          label: 'Descripción del Sintoma',
+          required: true,
+          editor: lexicalEditor({}),
+          defaultValue: emptyCarruselTabTitleLexicalState,
+        },
+        {
+          name: 'statTitle',
+          type: 'text',
+          label: 'Título de Estadística',
+        },
+        {
+          name: 'statValue',
+          type: 'text',
+          label: 'Valor de Estadística',
+        },
+        {
+          name: 'statDescription',
+          type: 'text',
+          label: 'Descripción de Estadística',
+        },
+        {
+          name: "recommendations",
+          type: "select",
+          label: "Se recomienda el uso de:",
+          required: true,
+          options: [
+            {
+              label: "DryOff",
+              value: "dryOff",
+            },
+            {
+              label: "RedOff",
+              value: "redOff",
+            },
+          ],
+        },
+        {
+          name: 'consejos',
+          type: 'richText',
+          label: 'Consejos breves para evitarlo',
+          required: true,
+          editor: lexicalEditor({}),
+          defaultValue: emptyCarruselTabTitleLexicalState,
+        },
+      ],
+    },
+    {
+      name: "condition",
+      type: "text",
+      label: "Condiciones",
+      required: true,
+      admin: {
+        description: "Condiciones",
       },
     },
     {
@@ -29,134 +152,6 @@ export const CarruselTab: Block = {
       admin: {
         description: 'Color de fondo de la sección (formato hex)',
       },
-    },
-    // Opciones para RedOff
-    {
-      name: 'redOffOptions',
-      type: 'array',
-      label: 'Opciones RedOff',
-      minRows: 1,
-      admin: {
-        description: 'Opciones que aparecerán en el tab RedOff',
-      },
-      fields: [
-        {
-          name: 'name',
-          type: 'text',
-          label: 'Nombre de la Opción',
-          required: true,
-        },
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media',
-          label: 'Imagen',
-          required: true,
-        },
-        {
-          name: 'description',
-          type: 'textarea',
-          label: 'Descripción Principal',
-          required: true,
-        },
-        {
-          name: 'statTitle',
-          type: 'text',
-          label: 'Título de Estadística',
-        },
-        {
-          name: 'statValue',
-          type: 'text',
-          label: 'Valor de Estadística',
-        },
-        {
-          name: 'statDescription',
-          type: 'text',
-          label: 'Descripción de Estadística',
-        },
-        {
-          name: 'tipsTitle',
-          type: 'text',
-          label: 'Título de Consejos',
-        },
-        {
-          name: 'tips',
-          type: 'array',
-          label: 'Consejos',
-          fields: [
-            {
-              name: 'text',
-              type: 'text',
-              label: 'Texto del Consejo',
-              required: true,
-            },
-          ],
-        },
-      ],
-    },
-    // Opciones para DryOff
-    {
-      name: 'dryOffOptions',
-      type: 'array',
-      label: 'Opciones DryOff',
-      minRows: 1,
-      admin: {
-        description: 'Opciones que aparecerán en el tab DryOff',
-      },
-      fields: [
-        {
-          name: 'name',
-          type: 'text',
-          label: 'Nombre de la Opción',
-          required: true,
-        },
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media',
-          label: 'Imagen',
-          required: true,
-        },
-        {
-          name: 'description',
-          type: 'textarea',
-          label: 'Descripción Principal',
-          required: true,
-        },
-        {
-          name: 'statTitle',
-          type: 'text',
-          label: 'Título de Estadística',
-        },
-        {
-          name: 'statValue',
-          type: 'text',
-          label: 'Valor de Estadística',
-        },
-        {
-          name: 'statDescription',
-          type: 'text',
-          label: 'Descripción de Estadística',
-        },
-        {
-          name: 'tipsTitle',
-          type: 'text',
-          label: 'Título de Consejos',
-        },
-        {
-          name: 'tips',
-          type: 'array',
-          label: 'Consejos',
-          fields: [
-            {
-              name: 'text',
-              type: 'text',
-              label: 'Texto del Consejo',
-              required: true,
-            },
-          ],
-        },
-      ],
     },
   ],
 }

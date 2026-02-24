@@ -13,6 +13,10 @@ import { CarruselTabComponent } from '@/blocks/carrusel-tab/Component'
 import { CardsBlock } from '@/blocks/CardsBlock/Component'
 import { StepToStepBlock } from '@/blocks/StepToStepBlock/Component'
 import { CarouselRecommendationBlock } from '@/blocks/CarouselRecommendationBlock/Component'
+import { HeaderProductoBlock } from '@/blocks/HeaderProductoBlock/Component'
+import { FaqBlockComponent } from '@/blocks/FaqBlock/Component'
+import { ProductDetailsBlockComponent } from '@/blocks/ProductDetailsBlock/Component'
+import { ProductInfoBlockComponent } from '@/blocks/ProductInfoBlock/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -26,6 +30,10 @@ const blockComponents = {
   cards: CardsBlock,
   stepToStep: StepToStepBlock,
   carouselRecommendation: CarouselRecommendationBlock,
+  headerProducto: HeaderProductoBlock,
+  faq: FaqBlockComponent,
+  productDetails: ProductDetailsBlockComponent,
+  productInfo: ProductInfoBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{
