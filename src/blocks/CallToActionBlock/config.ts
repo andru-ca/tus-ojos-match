@@ -9,6 +9,8 @@ export const CallToActionBlock: Block = {
     singular: 'Call to Action Block',
   },
     
+  imageURL: '/images/thumb/CallToActionBlock.png', // 👈 imagen de portada en el admin
+  imageAltText: 'Vista previa de Call to Action Block',
 
   fields: [
     {

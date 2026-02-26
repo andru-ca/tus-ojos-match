@@ -3,6 +3,13 @@ import type { Block } from 'payload'
 export const HeroGotas: Block = {
   slug: 'heroGotas',
   interfaceName: 'HeroGotasBlock',
+  labels: {
+    plural: 'Hero Gotas Blocks',
+    singular: 'Hero Gotas Block',
+  },
+  imageURL: '/images/thumb/HeroGotasBlock.png', // 👈 imagen de portada en el admin
+  imageAltText: 'Vista previa de Hero Gotas Block',
+
   fields: [
     {
       name: 'backgroundImage',
@@ -36,10 +43,12 @@ export const HeroGotas: Block = {
     {
       name: 'leftTags',
       type: 'array',
-      label: 'Tags Izquierdos',
+      label: 'Síntomas Izquierdos',
       admin: {
-        description: 'Tags que aparecerán en el lado izquierdo',
+        description: 'Síntomas que aparecerán en el lado izquierdo',
       },
+      maxRows: 3,
+      minRows:0,
       fields: [
         {
           name: 'text',
@@ -52,10 +61,12 @@ export const HeroGotas: Block = {
     {
       name: 'rightTags',
       type: 'array',
-      label: 'Tags Derechos',
+      label: 'Síntomas Derechos',
       admin: {
-        description: 'Tags que aparecerán en el lado derecho',
+        description: 'Síntomas que aparecerán en el lado derecho',
       },
+      maxRows: 3,
+      minRows:0,
       fields: [
         {
           name: 'text',

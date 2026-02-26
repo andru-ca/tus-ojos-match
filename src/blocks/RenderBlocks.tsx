@@ -17,6 +17,7 @@ import { HeaderProductoBlock } from '@/blocks/HeaderProductoBlock/Component'
 import { FaqBlockComponent } from '@/blocks/FaqBlock/Component'
 import { ProductDetailsBlockComponent } from '@/blocks/ProductDetailsBlock/Component'
 import { ProductInfoBlockComponent } from '@/blocks/ProductInfoBlock/Component'
+import { InstagramFeedBlockComponent } from '@/blocks/InstagramFeed/Component'
 
 const blockComponents = {
   archive: ArchiveBlock,
@@ -34,6 +35,7 @@ const blockComponents = {
   faq: FaqBlockComponent,
   productDetails: ProductDetailsBlockComponent,
   productInfo: ProductInfoBlockComponent,
+  instagramFeed: InstagramFeedBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{

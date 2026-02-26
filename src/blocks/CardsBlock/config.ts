@@ -9,6 +9,9 @@ export const CardsBlock: Block = {
     plural: 'Cards Blocks',
     singular: 'Cards Block',
   },
+  imageURL: '/images/thumb/CardsBlock.png', // 👈 imagen de portada en el admin
+  imageAltText: 'Vista previa de Cards Block',
+
 
   fields: [
     {

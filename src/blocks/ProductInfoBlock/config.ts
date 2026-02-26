@@ -8,6 +8,8 @@ export const ProductInfoBlock: Block = {
     plural: 'Product Info Blocks',
     singular: 'Product Info Block',
   },
+  imageURL: '/images/thumb/ProductInfoBlock.png', // 👈 imagen de portada en el admin
+  imageAltText: 'Vista previa de Product Info Block',
 
   fields: [
     {

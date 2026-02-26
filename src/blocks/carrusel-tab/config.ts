@@ -40,6 +40,13 @@ export const emptyCarruselTabTitleLexicalState = {
 export const CarruselTab: Block = {
   slug: 'carruselTab',
   interfaceName: 'CarruselTabBlock',
+  labels: {
+    plural: 'Carrusel Tab Blocks',
+    singular: 'Carrusel Tab Block',
+  },
+  imageURL: '/images/thumb/CarruselTab.png', // 👈 imagen de portada en el admin
+  imageAltText: 'Vista previa de Carrusel Tab Block',
+
   fields: [
     {
       name: 'topText',

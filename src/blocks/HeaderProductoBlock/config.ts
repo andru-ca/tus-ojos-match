@@ -9,6 +9,9 @@ export const HeaderProductoBlock: Block = {
     plural: 'Header Producto Blocks',
     singular: 'Header Producto Block',
   },
+  imageURL: '/images/thumb/HeaderProductoBlock.png', // 👈 imagen de portada en el admin
+  imageAltText: 'Vista previa de Header Producto Block',
+
 
   fields: [
     {

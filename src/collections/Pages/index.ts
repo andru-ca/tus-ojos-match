@@ -2,12 +2,11 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
-import { Archive } from '../../blocks/ArchiveBlock/config'
-import { CallToAction } from '../../blocks/CallToAction/config'
-import { CallToActionBlock } from '../../blocks/CallToActionBlock/config'
-import { Content } from '../../blocks/Content/config'
-import { FormBlock } from '../../blocks/Form/config'
-import { MediaBlock } from '../../blocks/MediaBlock/config'
+//import { Archive } from '../../blocks/ArchiveBlock/config'
+// import { CallToAction } from '../../blocks/CallToAction/config'
+//import { Content } from '../../blocks/Content/config'
+//import { FormBlock } from '../../blocks/Form/config'
+//import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { HeroGotas } from '../../blocks/HeroGotas/config'
 import { CarruselTab } from '../../blocks/carrusel-tab/config'
 import { CardsBlock } from '../../blocks/CardsBlock/config'
@@ -17,6 +16,8 @@ import { HeaderProductoBlock } from '../../blocks/HeaderProductoBlock/config'
 import { FaqBlock } from '../../blocks/FaqBlock/config'
 import { ProductDetailsBlock } from '../../blocks/ProductDetailsBlock/config'
 import { ProductInfoBlock } from '../../blocks/ProductInfoBlock/config'
+import { CallToActionBlock } from '../../blocks/CallToActionBlock/config'
+import { InstagramFeedBlock } from '../../blocks/InstagramFeed/config'
 import { hero } from '@/heros/config'
 import { slugField } from 'payload'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
@@ -83,7 +84,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [HeroGotas, CarruselTab, CallToAction, CallToActionBlock, StepToStepBlock, CarouselRecommendationBlock, HeaderProductoBlock, Content, MediaBlock, Archive, FormBlock, CardsBlock, FaqBlock, ProductDetailsBlock, ProductInfoBlock],
+              blocks: [HeroGotas, CarruselTab, CallToActionBlock, StepToStepBlock, CarouselRecommendationBlock, HeaderProductoBlock, CardsBlock, FaqBlock, ProductDetailsBlock, ProductInfoBlock, InstagramFeedBlock ],
               required: true,
               admin: {
                 initCollapsed: true,

@@ -12,12 +12,19 @@ const nextConfig = {
     remotePatterns: [
       ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
         const url = new URL(item)
-
         return {
           hostname: url.hostname,
           protocol: url.protocol.replace(':', ''),
         }
       }),
+      {
+        protocol: 'https',
+        hostname: '**.cdninstagram.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'scontent**.cdninstagram.com',
+      },
     ],
   },
   webpack: (webpackConfig) => {

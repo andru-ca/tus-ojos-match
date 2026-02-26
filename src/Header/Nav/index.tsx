@@ -24,7 +24,7 @@ export const HeaderNav: React.FC<{ data: HeaderType; isMobile?: boolean }> = ({ 
   }
 
   return (
-    <nav className={`flex ${isMobile ? 'flex-col' : 'flex-row flex-wrap'} gap-2 md:gap-3 ${isMobile ? 'items-stretch' : 'items-center justify-end'}`}>
+    <nav className={`flex ${isMobile ? 'flex-col' : 'flex-row flex-nowrap md:flex-wrap'} gap-2 md:gap-3 ${isMobile ? 'items-stretch' : 'items-center justify-end'}`}>
       {navItems.map(({ link }, i) => {
         const label = link?.label
         const href = getHref(link)

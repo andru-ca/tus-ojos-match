@@ -32,8 +32,20 @@ export const HeroGotasComponent: React.FC<Props> = ({
 
   const titleLines = getTitleLines(mainTitle)
 
+  // Translate-x distinto por tag (izquierda: positivo; derecha: negativo)
+  const leftTagTranslate = [
+    'translate-x-16 lg:translate-x-12 xl:translate-x-12',
+    'translate-x-6 lg:translate-x-6 xl:translate-x-6',
+    'translate-x-16 lg:translate-x-12 xl:translate-x-12',
+  ]
+  const rightTagTranslate = [
+    '-translate-x-12 lg:-translate-x-12 xl:-translate-x-12',
+    '-translate-x-6 lg:-translate-x-6 xl:-translate-x-6',
+    '-translate-x-12 lg:-translate-x-12 xl:-translate-x-12',
+  ]
+
   return (
-    <section className="relative w-full min-h-[700px] lg:min-h-[800px] flex items-center justify-center overflow-visible">
+    <section className="relative w-full min-h-[700px] lg:min-h-[800px] flex items-center justify-center overflow-x-hidden">
       {/* Imagen de Fondo */}
       {bgImageUrl && bgImage && (
         <div className="absolute inset-0 z-0">
@@ -48,15 +60,15 @@ export const HeroGotasComponent: React.FC<Props> = ({
       )}
 
       {/* Layout de 3 Columnas */}
-      <div className="relative z-10 w-full max-w-[1800px] mx-auto px-8 py-20">
-        <div className="grid grid-cols-12 items-center min-h-[600px]">
+      <div className="relative z-10 w-full max-w-[1800px] mx-auto px-4 sm:px-8 py-20 min-w-0">
+        <div className="grid grid-cols-12 items-center min-h-[600px] min-w-0">
           
           {/* Columna Izquierda - Tags (más cerca del centro) */}
-          <div className="col-span-2 col-start-1 flex flex-col justify-around items-end h-[80%] py-20 translate-x-8 lg:translate-x-12 xl:translate-x-20">
+          <div className="col-span-2 col-start-1 flex flex-col justify-around items-end h-[80%] py-20">
             {leftTags && leftTags.length > 0 && leftTags.map((tag, index) => (
               <div
                 key={index}
-                className="md:block hidden px-6 py-3 rounded-full bg-white/50 backdrop-blur-sm text-[#005373] text-base font-medium whitespace-nowrap"
+                className={`md:block hidden px-6 py-3 rounded-full bg-white/50 backdrop-blur-sm text-[#005373] text-base font-medium whitespace-nowrap ${leftTagTranslate[index % leftTagTranslate.length]}`}
               >
                 {tag.text}
               </div>
@@ -64,8 +76,8 @@ export const HeroGotasComponent: React.FC<Props> = ({
           </div>
 
           {/* Columna Central - Título + Gotas */}
-          <div className="col-span-8 col-start-3 relative flex items-center justify-center">
-            <div className="relative w-full">
+          <div className="md:col-span-8 md:col-start-3  col-span-12 col-star-1 relative flex items-center justify-center min-w-0">
+            <div className="relative w-full min-w-0 max-w-full">
               {/* Título dividido en líneas */}
               <div className="text-center">
                 {titleLines.map((line, index) => (
@@ -93,11 +105,11 @@ export const HeroGotasComponent: React.FC<Props> = ({
           </div>
 
           {/* Columna Derecha - Tags (más cerca del centro) */}
-          <div className="col-span-2 col-start-11 flex flex-col justify-around items-start h-[80%] py-20 -translate-x-8 lg:-translate-x-12 xl:-translate-x-20">
+          <div className="col-span-2 col-start-11 flex flex-col justify-around items-start h-[80%] py-20">
             {rightTags && rightTags.length > 0 && rightTags.map((tag, index) => (
               <div
                 key={index}
-                className="md:block hidden px-6 py-3 rounded-full bg-white/50 backdrop-blur-sm text-[#005373] text-base font-medium whitespace-nowrap"
+                className={`md:block hidden px-6 py-3 rounded-full bg-white/50 backdrop-blur-sm text-[#005373] text-base font-medium whitespace-nowrap ${rightTagTranslate[index % rightTagTranslate.length]}`}
               >
                 {tag.text}
               </div>

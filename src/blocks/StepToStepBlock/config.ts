@@ -8,6 +8,8 @@ export const StepToStepBlock: Block = {
     plural: 'Step To Step Blocks',
     singular: 'Step To Step Block',
   },
+  imageURL: '/images/thumb/StepToStepBlock.png', // 👈 imagen de portada en el admin
+  imageAltText: 'Vista previa de Step To Step Block',
 
   fields: [
     {

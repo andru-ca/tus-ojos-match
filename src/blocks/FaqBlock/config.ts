@@ -8,6 +8,8 @@ export const FaqBlock: Block = {
     plural: 'Faq Blocks',
     singular: 'Faq Block',
   },
+  imageURL: '/images/thumb/FaqBlock.png', // 👈 imagen de portada en el admin
+  imageAltText: 'Vista previa de Faq Block',
 
   fields: [
     {

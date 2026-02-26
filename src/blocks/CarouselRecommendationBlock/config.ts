@@ -7,6 +7,8 @@ export const CarouselRecommendationBlock: Block = {
     plural: 'Carousel Recommendation Blocks',
     singular: 'Carousel Recommendation Block',
   },
+  imageURL: '/images/thumb/CarouselRecommendationBlock.png', // 👈 imagen de portada en el admin
+  imageAltText: 'Vista previa de Carousel Recommendation Block',
 
   fields: [
     {

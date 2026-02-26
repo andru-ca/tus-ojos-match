@@ -37,7 +37,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0
-      setIsScrolled(scrollPosition > 50)
+      setIsScrolled(scrollPosition > 10)
     }
 
     // Verificar posición inicial
@@ -108,7 +108,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               alt={logoTransparent.alt || 'Logo'}
               width={200}
               height={logoTransparent.height || 50}
-              className="h-auto w-[200px] transition-opacity duration-300"
+              className="h-auto w-[150px] md:w-[200px]"
               style={{ height: 'auto' }}
               priority
               unoptimized={logoTransparentUrl.endsWith('.svg')}
@@ -120,7 +120,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               alt={logo.alt || 'Logo'}
               width={200}
               height={logo.height || 50}
-              className="h-auto w-[200px] transition-opacity duration-300"
+              className="h-auto w-[150px] md:w-[200px] "
               style={{ height: 'auto' }}
               priority
               unoptimized={logoUrl.endsWith('.svg')}

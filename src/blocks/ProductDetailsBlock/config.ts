@@ -61,7 +61,8 @@ export const ProductDetailsBlock: Block = {
     plural: 'Product Details Blocks',
     singular: 'Product Details Block',
   },
-
+  imageURL: '/images/thumb/ProductDetailsBlock.png', // 👈 imagen de portada en el admin
+  imageAltText: 'Vista previa de Product Details Block',
   fields: [
     {
       name: 'caption',
