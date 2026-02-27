@@ -36,22 +36,5 @@ export const InstagramFeedBlock: Block = {
       min: 1,
       max: 24,
     },
-    {
-      name: 'slidesPerView',
-      type: 'number',
-      label: 'Slides visibles',
-      defaultValue: 4,
-      min: 1,
-      max: 6,
-      admin: {
-        description: 'Cantidad de slides visibles a la vez en el slider',
-      },
-    },
-    {
-      name: 'showCaption',
-      type: 'checkbox',
-      label: 'Mostrar descripción al hacer hover',
-      defaultValue: false,
-    },
   ],
 }

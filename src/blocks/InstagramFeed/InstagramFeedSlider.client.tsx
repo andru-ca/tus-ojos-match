@@ -15,15 +15,12 @@ import './styles.css'
 type Props = {
   posts: InstagramPost[]
   profile?: InstagramProfile | null
-  slidesPerView: number
   caption?: string | null
   titleSection?: DefaultTypedEditorState | null
-  showCaption?: boolean
 }
 
-export function InstagramFeedSlider({ posts, profile, slidesPerView, caption, titleSection, showCaption }: Props) {
+export function InstagramFeedSlider({ posts, profile, caption, titleSection }: Props) {
   const swiperRef = useRef<SwiperType | null>(null)
-  const slides = Math.min(slidesPerView, 6)
 
   return (
     <section className="instagram-feed container mx-auto py-12" data-aos="fade-up" data-aos-delay="500" >

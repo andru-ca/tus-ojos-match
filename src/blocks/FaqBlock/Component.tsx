@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Image from 'next/image'
 import RichText from '@/components/RichText'
 import type { DefaultTypedEditorState } from '@payloadcms/richtext-lexical'
 
@@ -61,11 +62,14 @@ export const FaqBlockComponent: React.FC<Props> = (props) => {
                         <h5 className="question-title pr-4"> 
                           {item.question}
                         </h5>
-                        <img
+                        <Image
                           src={isOpen ? '/icons/icon-minus.svg' : '/icons/icon-plus.svg'}
                           alt=""
+                          width={40}
+                          height={40}
                           className="flex-shrink-0 bg-[#E6F4FF] rounded-full p-2 w-10 h-10"
                           aria-hidden
+                          unoptimized
                         />
                       </button>
                     )}

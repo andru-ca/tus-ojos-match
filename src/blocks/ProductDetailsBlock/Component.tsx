@@ -111,11 +111,14 @@ export const ProductDetailsBlockComponent: React.FC<Props> = (props) => {
                               className="inline-flex items-center gap-2 px-4 py-2 bg-transparent border border-[#0063B5] rounded-full"
                             >
                               <span>Descargar Folleto</span>
-                              <img
+                              <Image
                                 src="/icons/icon-download.svg"
                                 alt=""
+                                width={24}
+                                height={24}
                                 className="w-6 h-6"
                                 aria-hidden
+                                unoptimized
                               />
                             </a>
                           )

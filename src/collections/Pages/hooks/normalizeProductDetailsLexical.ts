@@ -1,5 +1,5 @@
 import type { CollectionAfterReadHook } from 'payload'
-import { emptyCarruselTabTitleLexicalState } from '@/blocks/carrusel-tab/config'
+import { emptyCarruselTabTitleLexicalState } from '@/blocks/TabsInformationBlock/config'
 import { emptyProductDetailsLexicalState } from '@/blocks/ProductDetailsBlock/config'
 
 function isValidLexicalObject(v: unknown): v is { root: unknown } {

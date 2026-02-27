@@ -43,14 +43,14 @@ export const seed = async ({
   // the custom `/api/seed` endpoint does not
   payload.logger.info(`— Clearing collections and globals...`)
 
-  // clear the database
+  // clear the database (reset globals; header y footer tienen navItems)
   await Promise.all(
     globals.map((global) =>
       payload.updateGlobal({
         slug: global,
         data: {
           navItems: [],
-        },
+        } as Record<string, unknown>,
         depth: 0,
         context: {
           disableRevalidate: true,

@@ -7,12 +7,9 @@ import type { CarruselTabBlock } from '@/payload-types'
 import RichText from '@/components/RichText'
 import './styles.css'
 
-const RECOMMENDATION_LABELS: Record<string, string> = {
-  dryOff: 'DryOff',
-  redOff: 'RedOff',
-}
-
 const SWIPE_THRESHOLD = 50
+
+type TabOption = NonNullable<NonNullable<CarruselTabBlock['options']>[number]>
 
 type Props = CarruselTabBlock
 
@@ -26,7 +23,7 @@ export const CarruselTabComponent: React.FC<Props> = ({
 }) => {
   const allOptions = options ?? []
   const [activeIndex, setActiveIndex] = useState(0)
-  const [isPaused, setIsPaused] = useState(false)
+  const [isPaused, _setIsPaused] = useState(false)
   const [progress, setProgress] = useState(0)
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
   const swipeStart = useRef<number | null>(null)
@@ -120,7 +117,7 @@ export const CarruselTabComponent: React.FC<Props> = ({
 
             {/* Opciones: en mobile scroll al activo + swipe en imagen/contenido */}
             <div className="flex flex-row md:flex-col gap-2 items-start overflow-x-auto scrollbar-hide">
-              {allOptions.map((option: any, index: number) => {
+              {allOptions.map((option: TabOption, index: number) => {
                 const isActive = index === activeIndex
                 return (
                   <button

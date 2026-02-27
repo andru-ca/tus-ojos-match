@@ -66,7 +66,7 @@ export const CarouselRecommendationBlock: React.FC<Props> = (props) => {
           swiperRef.current = swiper
         }}
       >
-        {recommendations.map((recommendation, index) => {
+        {recommendations.map((recommendation) => {
           const sliderImage = recommendation.imageSlider as Media | undefined
           const sliderImageUrl = sliderImage?.url || null
 

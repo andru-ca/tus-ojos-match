@@ -37,8 +37,11 @@ export const AdminBar: React.FC<{
   const { adminBarProps } = props || {}
   const segments = useSelectedLayoutSegments()
   const [show, setShow] = useState(false)
+  // segments[0] = 'posts' en /posts/..., sino página (home o /slug)
   const collection = (
-    collectionLabels[segments?.[1] as keyof typeof collectionLabels] ? segments[1] : 'pages'
+    segments?.[0] && collectionLabels[segments[0] as keyof typeof collectionLabels]
+      ? segments[0]
+      : 'pages'
   ) as keyof typeof collectionLabels
   const router = useRouter()
 
@@ -80,10 +83,15 @@ export const AdminBar: React.FC<{
           logo={<Title />}
           onAuthChange={onAuthChange}
           onPreviewExit={() => {
-            fetch('/next/exit-preview').then(() => {
-              router.push('/')
-              router.refresh()
-            })
+            fetch('/next/exit-preview')
+              .then(() => {
+                router.push('/')
+                router.refresh()
+              })
+              .catch(() => {
+                router.push('/')
+                router.refresh()
+              })
           }}
           style={{
             backgroundColor: 'transparent',

@@ -2,13 +2,13 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
-//import { Archive } from '../../blocks/ArchiveBlock/config'
-// import { CallToAction } from '../../blocks/CallToAction/config'
-//import { Content } from '../../blocks/Content/config'
-//import { FormBlock } from '../../blocks/Form/config'
-//import { MediaBlock } from '../../blocks/MediaBlock/config'
+import { Archive } from '../../blocks/ArchiveBlock/config'
+import { CallToAction } from '../../blocks/CallToAction/config'
+import { Content } from '../../blocks/Content/config'
+import { FormBlock } from '../../blocks/Form/config'
+import { MediaBlock } from '../../blocks/MediaBlock/config'
 import { HeroGotas } from '../../blocks/HeroGotas/config'
-import { CarruselTab } from '../../blocks/carrusel-tab/config'
+import { CarruselTab } from '../../blocks/TabsInformationBlock/config'
 import { CardsBlock } from '../../blocks/CardsBlock/config'
 import { StepToStepBlock } from '../../blocks/StepToStepBlock/config'
 import { CarouselRecommendationBlock } from '../../blocks/CarouselRecommendationBlock/config'
@@ -84,7 +84,23 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [HeroGotas, CarruselTab, CallToActionBlock, StepToStepBlock, CarouselRecommendationBlock, HeaderProductoBlock, CardsBlock, FaqBlock, ProductDetailsBlock, ProductInfoBlock, InstagramFeedBlock ],
+              blocks: [HeroGotas, 
+                CarruselTab, 
+                CallToActionBlock, 
+                StepToStepBlock, 
+                CarouselRecommendationBlock, 
+                HeaderProductoBlock, 
+                CardsBlock, 
+                FaqBlock, 
+                ProductDetailsBlock, 
+                ProductInfoBlock, 
+                InstagramFeedBlock, 
+                Archive, 
+                Content, 
+                FormBlock, 
+                MediaBlock,
+                CallToAction,
+              ],
               required: true,
               admin: {
                 initCollapsed: true,

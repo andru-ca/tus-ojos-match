@@ -2,25 +2,34 @@
 
 import React from 'react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
 import type { Header as HeaderType, Page } from '@/payload-types'
 
+type NavLink = NonNullable<NonNullable<HeaderType['navItems']>[number]>['link']
+
 export const HeaderNav: React.FC<{ data: HeaderType; isMobile?: boolean }> = ({ data, isMobile = false }) => {
   const navItems = data?.navItems || []
+  const pathname = usePathname()
 
-  const getLinkStyles = () => {
+  const getHref = (link: NavLink) => {
+    if (link?.type === 'reference' && link?.reference?.value) {
+      const value = link.reference.value
+      const page = typeof value === 'object' && value !== null && 'slug' in value ? (value as Page) : null
+      if (page?.slug) return `/${page.slug}`
+    }
+    if (link?.type === 'custom' && link?.url) return link.url
+    return '#'
+  }
+
+  const getLinkStyles = (href: string) => {
     const baseStyles = isMobile
       ? 'px-6 py-3 rounded-full text-base font-medium transition-all hover:opacity-90 w-full text-center'
       : 'px-6 py-3 md:px-6 md:py-3 rounded-full text-sm md:text-base font-medium transition-all hover:opacity-90'
-    return `${baseStyles} bg-white text-[#005373]`
-  }
-
-  const getHref = (link: any) => {
-    if (link?.type === 'reference' && link?.reference?.value) {
-      const page = link.reference.value as Page
-      return `/${page.slug}`
-    }
-    return link?.url || '#'
+    const isActive =
+      href !== '#' &&
+      (pathname === href || pathname === `${href}/` || (pathname === '/' && (href === '/' || href === '/home')))
+    return `${baseStyles} bg-white ${isActive ? 'text-[#002330] font-semibold' : 'text-[#005373]'}`
   }
 
   return (
@@ -33,15 +42,14 @@ export const HeaderNav: React.FC<{ data: HeaderType; isMobile?: boolean }> = ({ 
           <Link
             key={i}
             href={href}
-            className={getLinkStyles()}
+            className={getLinkStyles(href)}
             {...(newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            {...(href !== '#' && !newTab && (pathname === href || (pathname === '/' && href === '/home')) ? { 'aria-current': 'page' as const } : {})}
           >
             {label}
           </Link>
         )
       })}
-
-    
     </nav>
   )
 }

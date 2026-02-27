@@ -58,11 +58,11 @@ export const HeaderProductoBlock: React.FC<Props> = (props) => {
             )}
 
             {/* Logotipo del Producto */}
-            {logoProduct && (
+            {logoProduct && logoProductUrl && (
               <div className="mb-12">
                 <Image
                   src={logoProductUrl}
-                  alt={logoProduct.alt || 'Logo'}
+                  alt={logoProductMedia?.alt || 'Logo'}
                   width={213}
                   height={62}
                   className="object-contain"
