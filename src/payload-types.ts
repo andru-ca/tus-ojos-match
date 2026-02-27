@@ -994,7 +994,6 @@ export interface ProductInfoBlock {
      * Imagen de la Galería
      */
     imageProductInfo: string | Media;
-    borderImageProduct?: ('border-rounded' | 'border-oval') | null;
     id?: string | null;
   }[];
   id?: string | null;
@@ -1746,7 +1745,6 @@ export interface ProductInfoBlockSelect<T extends boolean = true> {
     | T
     | {
         imageProductInfo?: T;
-        borderImageProduct?: T;
         id?: T;
       };
   id?: T;

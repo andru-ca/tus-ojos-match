@@ -158,24 +158,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         )}
       </div>
 
-      {/* Call to action button (mobile): flotante a la derecha */}
-      {(data.callToActionBtn ?? []).length > 0 && (
-        <div className="fixed bottom-6 right-4 z-40 md:hidden flex justify-end">
-          {(data.callToActionBtn ?? []).map(({ link }, i) => {
-            const label = link?.label
-            return (
-              <button
-                key={i}
-                type="button"
-                onClick={openMenu}
-                className="py-4 px-6 rounded-full text-base font-medium transition-all hover:opacity-90 bg-[#007FE8] text-white shadow-lg whitespace-nowrap"
-              >
-                {label}
-              </button>
-            )
-          })}
-        </div>
-      )}
+      {/* CTA móvil: se muestra en todo el sitio desde layout (componente MobileCTA) */}
     </header>
   )
 }

@@ -11,7 +11,7 @@ export const CardsBlock: React.FC<Props> = (props) => {
 
   return (
     <section className="relative w-full">
-      <div className="container py-12">
+      <div className="container py-12" data-aos="fade-up" data-aos-delay="500">
      
       {titleSectionCards && (
         <div className="text-center text-brand-primary mb-8 md:mb-12 lg:mb-16 px-4 md:px-6 lg:px-0 max-w-2xl mx-auto">

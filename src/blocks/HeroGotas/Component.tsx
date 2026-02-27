@@ -2,6 +2,8 @@ import React from 'react'
 import Image from 'next/image'
 import type { Media, HeroGotasBlock } from '@/payload-types'
 
+
+
 type Props = HeroGotasBlock
 
 export const HeroGotasComponent: React.FC<Props> = ({
@@ -64,11 +66,11 @@ export const HeroGotasComponent: React.FC<Props> = ({
         <div className="grid grid-cols-12 items-center min-h-[600px] min-w-0">
           
           {/* Columna Izquierda - Tags (más cerca del centro) */}
-          <div className="col-span-2 col-start-1 flex flex-col justify-around items-end h-[80%] py-20">
+          <div className="col-span-2 col-start-1 flex flex-col justify-around items-end h-[80%] py-20" data-aos="fade-left" data-aos-delay="800">
             {leftTags && leftTags.length > 0 && leftTags.map((tag, index) => (
               <div
                 key={index}
-                className={`md:block hidden px-6 py-3 rounded-full bg-white/50 backdrop-blur-sm text-[#005373] text-base font-medium whitespace-nowrap ${leftTagTranslate[index % leftTagTranslate.length]}`}
+                className={`md:block hidden px-5 py-3 rounded-full bg-white/50 backdrop-blur-sm text-[#005373] text-base font-medium whitespace-nowrap ${leftTagTranslate[index % leftTagTranslate.length]}`}
               >
                 {tag.text}
               </div>
@@ -79,7 +81,7 @@ export const HeroGotasComponent: React.FC<Props> = ({
           <div className="md:col-span-8 md:col-start-3  col-span-12 col-star-1 relative flex items-center justify-center min-w-0">
             <div className="relative w-full min-w-0 max-w-full">
               {/* Título dividido en líneas */}
-              <div className="text-center">
+              <div className="text-center" data-aos="fade-up" data-aos-delay="100">
                 {titleLines.map((line, index) => (
                   <div key={index} className="heading-hero text-white uppercase">
                     {line}
@@ -89,7 +91,7 @@ export const HeroGotasComponent: React.FC<Props> = ({
 
               {/* Imagen de Gotas superpuesta */}
               {gotasUrl && gotas && (
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[500px] lg:max-w-[650px]">
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-[500px] lg:max-w-[650px]" data-aos="fade-up" data-aos-delay="500" >
                   <Image
                     src={gotasUrl}
                     alt={gotas.alt || 'Gotas'}
@@ -105,11 +107,11 @@ export const HeroGotasComponent: React.FC<Props> = ({
           </div>
 
           {/* Columna Derecha - Tags (más cerca del centro) */}
-          <div className="col-span-2 col-start-11 flex flex-col justify-around items-start h-[80%] py-20">
+          <div className="col-span-2 col-start-11 flex flex-col justify-around items-start h-[80%] py-20" data-aos="fade-right" data-aos-delay="800">
             {rightTags && rightTags.length > 0 && rightTags.map((tag, index) => (
               <div
                 key={index}
-                className={`md:block hidden px-6 py-3 rounded-full bg-white/50 backdrop-blur-sm text-[#005373] text-base font-medium whitespace-nowrap ${rightTagTranslate[index % rightTagTranslate.length]}`}
+                className={`md:block hidden px-5 py-3 rounded-full bg-white/50 backdrop-blur-sm text-[#005373] text-base font-medium whitespace-nowrap ${rightTagTranslate[index % rightTagTranslate.length]}`}
               >
                 {tag.text}
               </div>

@@ -6,7 +6,6 @@ import type { Media } from '@/payload-types'
 
 type GalleryItem = {
   imageProductInfo?: string | Media | null
-  borderImageProduct?: 'border-rounded' | 'border-oval' | null
 }
 
 type Props = {
@@ -26,7 +25,7 @@ export const ProductInfoBlockComponent: React.FC<Props> = (props) => {
          {caption && (
             <p className="text-sm text-gray-500 pb-2">{caption}</p>
           )}
-        <div className="flex flex-col gap-12">
+        <div className="flex flex-col gap-2 md:gap-12">
           {/* Título */}
           {titleProductInfo && (
             <div className="text-brand-primary">
@@ -41,24 +40,24 @@ export const ProductInfoBlockComponent: React.FC<Props> = (props) => {
             </div>
           )}
 
-          {/* Galería */}
+          {/* Galería: desktop = solo 2ª imagen ovalada; mobile = 2ª y 3ª ovaladas */}
           {galleryProductInfo && galleryProductInfo.length > 0 && (
-            <div className="flex flex-wrap gap-0 py-16">
+            <div className="flex flex-wrap justify-center md:justify-start gap-0 py-16">
               {galleryProductInfo.map((item, index) => {
                 const imageMedia = item.imageProductInfo as Media | undefined
                 const imageUrl = imageMedia?.url ?? null
-                const borderClass =
-                  item.borderImageProduct === 'border-oval'
-                    ? 'rounded-full  w-[221px] h-[121px] md:w-[418px] md:h-[298px]'
-                    : 'rounded-full w-[121px] h-[121px] md:w-[298px] md:h-[298px]'
+                const isOvalMobile = index === 1 || index === 2
+                const isOvalDesktop = index === 1
+                const shapeClass = [
+                  'relative overflow-hidden rounded-full',
+                  isOvalMobile ? 'w-[221px] h-[121px]' : 'w-[121px] h-[121px]',
+                  isOvalDesktop ? 'md:w-[418px] md:h-[298px]' : 'md:w-[298px] md:h-[298px]',
+                ].join(' ')
 
                 if (!imageUrl || !imageMedia) return null
 
                 return (
-                  <div
-                    key={index}
-                    className={`relative  aspect-square overflow-hidden ${borderClass}`}
-                  >
+                  <div key={index} className={shapeClass}>
                     <Image
                       src={imageUrl}
                       alt={imageMedia.alt ?? `Imagen ${index + 1}`}

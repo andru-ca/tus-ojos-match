@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef } from 'react'
 import Image from 'next/image'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import type { Swiper as SwiperType } from 'swiper'
@@ -27,30 +27,18 @@ type Props = {
 export const CarouselRecommendationBlock: React.FC<Props> = (props) => {
   const { recommendations, titleSectionSlider } = props
   const swiperRef = useRef<SwiperType | null>(null)
-  const [isMobile, setIsMobile] = useState(false)
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024)
-    }
-
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
 
   if (!recommendations || recommendations.length === 0) {
     return null
   }
 
   const totalSlides = recommendations.length
-  const showNavigationDesktop = totalSlides >= 5
-  const showNavigationMobile = true // Siempre visible en mobile
-  const showPagination = isMobile ? showNavigationMobile : showNavigationDesktop
+  // En desktop solo mostramos barra de paginación si hay 5+ slides; en mobile siempre visible
+  const hidePaginationOnDesktop = totalSlides < 5
 
   return (
     <section className="relative w-full bg-brand-background">
-        <div className="container py-12">
+        <div className="container py-12" data-aos="fade-up" data-aos-delay="500">
           {titleSectionSlider && (
             <div className="text-left text-brand-primary mb-8 md:mb-12 lg:mb-16 max-w-3/4">
               <RichText data={titleSectionSlider} enableGutter={false} enableProse={false} />
@@ -68,10 +56,10 @@ export const CarouselRecommendationBlock: React.FC<Props> = (props) => {
           },
         }}
         navigation={false}
-        pagination={showPagination ? {
+        pagination={{
           clickable: true,
-          el: '.carousel-pagination-container',
-        } : false}
+          el: '.carousel-recommendation-pagination',
+        }}
         loop={totalSlides > 4}
         className="carousel-recommendation"
         onSwiper={(swiper) => {
@@ -116,13 +104,14 @@ export const CarouselRecommendationBlock: React.FC<Props> = (props) => {
         })}
       </Swiper>
       
-      {/* Contenedor para paginación y botones de navegación en una línea */}
-      {showPagination && (
-        <div className="flex items-center justify-between gap-4 mt-4 relative">
-          {/* Espacio izquierdo para centrar los bullets */}
-          <div className="min-w-[100px] flex-shrink-0"></div>
-          {/* Contenedor para los bullets de paginación centrados */}
-          <div className="carousel-pagination-container"></div>
+      {/* Contenedor para paginación y botones: siempre en DOM para que Swiper cree los bullets; en desktop se oculta con CSS si hay &lt;5 slides */}
+      <div
+        className={`flex items-center justify-between gap-4 mt-4 relative ${hidePaginationOnDesktop ? 'lg:hidden' : ''}`}
+      >
+        {/* Espacio izquierdo para centrar los bullets */}
+        <div className="min-w-[100px] flex-shrink-0" aria-hidden="true" />
+        {/* Contenedor para los bullets (Swiper lo rellena); clase única por instancia si hubiera varios carrusels */}
+        <div className="carousel-pagination-container carousel-recommendation-pagination" />
           {/* Contenedor para ambas flechas a la derecha */}
           <div className="flex items-center gap-4 flex-shrink-0">
             <button
@@ -152,7 +141,6 @@ export const CarouselRecommendationBlock: React.FC<Props> = (props) => {
             </button>
           </div>
         </div>
-      )}
       </div>
     </section>
   )

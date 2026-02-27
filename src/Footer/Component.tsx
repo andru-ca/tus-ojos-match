@@ -56,7 +56,7 @@ export async function Footer() {
 
                 {/* Texto de fondo grande con opacidad */}
                 <div 
-          className="w-full opacity-20 overflow-x-hidden"
+          className="w-full opacity-20"
         >
           <div 
             className="flex flex-col md:flex-row md:whitespace-nowrap select-none uppercase text-white text-left md:text-center tracking-[4px] footer-text-large min-w-0"

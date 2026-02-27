@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 
 import { cn } from '@/utilities/ui'
-import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
 import React from 'react'
 
+import AOSInit from '@/components/AOS/AOSInit'
 import { AdminBar } from '@/components/AdminBar'
+import { MobileCTA } from '@/components/MobileCTA/Component'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { MenuLateral } from '@/MenuLateral/Component'
@@ -13,21 +13,38 @@ import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
+import { getCachedGlobal } from '@/utilities/getGlobals'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
+  const headerData = await getCachedGlobal('header', 1)()
 
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
+    <html className="font-sans" lang="en" suppressHydrationWarning>
       <head>
         <InitTheme />
+        <link
+          href="/fonts/WOFF2/NunitoSans.woff2"
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="/fonts/WOFF2/SequelSans-RomanDisp.woff2"
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
       <body>
+        <AOSInit />
         <Providers>
           <AdminBar
             adminBarProps={{
@@ -35,10 +52,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             }}
           />
 
-          <Header />
+          <Header data={headerData} />
           {children}
           <Footer />
           <MenuLateral />
+          <MobileCTA data={headerData} />
         </Providers>
       </body>
     </html>

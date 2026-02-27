@@ -25,7 +25,7 @@ export const StepToStepBlock: React.FC<Props> = (props) => {
 
   return (
     <section className="relative w-full bg-brand-background">
-      <div className="container py-16">
+      <div className="container py-16" data-aos="fade-up" data-aos-delay="500">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 py-8 items-start pb-16">
         {/* Imagen a la izquierda con máscara de gota */}
         {stepImageUrl && stepImage && (

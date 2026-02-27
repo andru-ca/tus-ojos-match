@@ -26,8 +26,8 @@ export function InstagramFeedSlider({ posts, profile, slidesPerView, caption, ti
   const slides = Math.min(slidesPerView, 6)
 
   return (
-    <section className="instagram-feed container mx-auto py-12">
-      <div className="flex flex-col gap-4 w-1/2">
+    <section className="instagram-feed container mx-auto py-12" data-aos="fade-up" data-aos-delay="500" >
+      <div className="flex flex-col gap-4 w-3/4 md:w-1/2">
 
       
       {caption && (

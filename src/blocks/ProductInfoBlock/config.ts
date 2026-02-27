@@ -52,7 +52,7 @@ export const ProductInfoBlock: Block = {
       fields: [
         {
           name: 'imageProductInfo',
-          type: 'upload', 
+          type: 'upload',
           label: 'Imagen de la Galería',
           required: true,
           relationTo: 'media',
@@ -60,23 +60,6 @@ export const ProductInfoBlock: Block = {
             description: 'Imagen de la Galería',
           },
         },
-        {
-            name:"borderImageProduct",
-            type:"select",
-            label: 'Borde de la Imagen',
-            required: false,
-            options: [
-                {
-                    label: 'Borde Redondeado',
-                    value: 'border-rounded',
-                },
-                {
-                    label: 'Borde Ovalado',
-                    value: 'border-oval',
-                },
-            ],
-        }
-
       ],
     },
   ],

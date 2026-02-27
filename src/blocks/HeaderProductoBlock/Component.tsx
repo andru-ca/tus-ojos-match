@@ -31,7 +31,7 @@ export const HeaderProductoBlock: React.FC<Props> = (props) => {
 
   return (
     <section className="relative w-full bg-brand-background pb-[100px] md:pb-[150px]">
-      <div className="container mx-auto pt-40">
+      <div className="container mx-auto pt-30">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-8 items-center my-10">
           
           {/* Columna Izquierda - Contenido */}
@@ -45,7 +45,7 @@ export const HeaderProductoBlock: React.FC<Props> = (props) => {
                   width={62}
                   height={24}
                   className="object-contain"
-                  style={{ width: 'auto', height: 'auto' }}
+                  style={{ width: '62px', height: 'auto' }}
                 />
               </div>
             )}
@@ -66,7 +66,7 @@ export const HeaderProductoBlock: React.FC<Props> = (props) => {
                   width={213}
                   height={62}
                   className="object-contain"
-                  style={{ width: 'auto', height: 'auto' }}
+                  style={{ width: '213px', height: 'auto' }}
                 />
               </div>
             )}
@@ -89,15 +89,14 @@ export const HeaderProductoBlock: React.FC<Props> = (props) => {
 
           {/* Columna Central - Imágenes del Producto */}
           <div className="lg:col-span-1 relative flex justify-center items-center min-h-[400px] order-1 lg:order-2">
-
-            {/* Caja del producto */}
+            {/* Contenedor con position relative para Image fill; ancho completo de la columna */}
             {boxImageUrl && boxImage && (
-              <div className="w-full">
+              <div className="relative w-full min-h-[350px] md:min-h-[480px]">
                 <Image
                   src={boxImageUrl}
                   alt={boxImage.alt || 'Product box'}
                   fill
-                  sizes="100vw"
+                  sizes="(max-width: 1024px) 100vw, 33vw"
                   className="object-contain"
                 />
               </div>
@@ -129,7 +128,7 @@ export const HeaderProductoBlock: React.FC<Props> = (props) => {
             </div>
             {/* Botón de Compra */}
             {buyButton && (
-              <div className="pt-4">
+              <div className="pt-4 hidden md:block">
                 <CMSLink
                   {...buyButton}
                   className="py-4 px-6 rounded-full bg-brand-btnPrimary text-white"

@@ -2,6 +2,10 @@
 const config = {
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Nunito Sans', 'Nunito Sans Fallback', 'sans-serif'],
+        heading: ['Sequel Sans', 'Sequel Sans Fallback', 'sans-serif'],
+      },
       colors: {
         brand: {
           primary: '#002330',

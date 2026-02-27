@@ -27,7 +27,7 @@ export const CallToActionBlock: React.FC<Props> = ({
 
   return (
     <section className="w-full bg-brand-background py-16">
-      <div className="container relative w-full min-h-[732px] md:min-h-[500px] lg:min-h-[310px] flex flex-col">
+      <div className="container relative w-full min-h-[732px] md:min-h-[500px] lg:min-h-[310px] flex flex-col" data-aos="fade-up" data-aos-delay="500" >
         {/* Imagen de Fondo */}
         {bgImageUrl && bgImage && (
           <div className="absolute left-4 right-4 md:left-8 md:right-8 top-0 bottom-0 z-0 overflow-hidden rounded-[24px] md:rounded-[32px] lg:rounded-[48px]">
@@ -35,7 +35,7 @@ export const CallToActionBlock: React.FC<Props> = ({
               src={bgImageUrl}
               alt={bgImage.alt || 'Background'}
               fill
-              sizes="100vw"
+              sizes="(max-width: 1024px) 100vw, 1280px"
               className="object-cover"
               priority
             />

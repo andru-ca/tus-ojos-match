@@ -13,26 +13,33 @@
 @custom-variant 2xl (@media (width >= theme(--breakpoint-2xl)));
 
 @layer base {
+  :root {
+    --font-sans: 'Nunito Sans', 'Nunito Sans Fallback', sans-serif;
+    --font-heading: 'Sequel Sans', 'Sequel Sans Fallback', sans-serif;
+  }
+
   h1,
   h2,
   h3,
   h4,
   h5,
   h6 {
-    font-family:'Sequel Sans', sans-serif; 
-  }
-  body{
-    font-family:'Nunito Sans', sans-serif;
+    font-family: var(--font-heading);
   }
 
-a{
-  color:#0063B5;
-}
+  body {
+    font-family: var(--font-sans);
+  }
 
-  p{
-    font-family: 'Nunito Sans', sans-serif;
+  a {
+    color: #0063B5;
+  }
+
+  p {
+    font-family: var(--font-sans);
     font-size: var(--Body-Medium-fontSize);
     line-height: var(--Body-Medium-lineHeight);
+    font-weight: var(--Body-Medium-fontWeight);
   }
 }
 
@@ -69,9 +76,9 @@ a{
   white-space: pre-wrap;
 }
 
-.payload-richtext a{
-color: #72FFFF;
-font-family: 'Nunito Sans', sans-serif;
+.payload-richtext a {
+  color: #72FFFF;
+  font-family: var(--font-sans);
 font-size: var(--Title-Medium-fontSize, 16px);
 font-style: normal;
 font-weight: 700;
@@ -162,7 +169,7 @@ h1{
 h2{
    font-size: var(--Display-Small-fontSize);
    font-weight: 100;
-   letter-spacing: -1px;
+   letter-spacing: 0px;
    line-height: var(--Display-Small-lineHeight);
    text-transform: uppercase;
 }
@@ -189,6 +196,14 @@ strong{
 
 }
 
+@media (max-width: 768px) {
+  h2 {
+    font-size: 24px;
+    font-weight: 900;
+    line-height: 32px; 
+  }
+}
+
 
 /*Hero */
 
@@ -196,10 +211,10 @@ strong{
 .heading-hero {
 color: #FFF;
 text-align: center;
-font-family: 'Sequel Sans Black', sans-serif;
+font-family: 'Sequel Sans', sans-serif;
 font-size: 160px;
 font-style: normal;
-font-weight: 900;
+font-weight: var(--font-weight-black);
 line-height: 160px; 
 }
 @media (max-width: 768px) {
@@ -265,7 +280,7 @@ line-height: 160px;
     .footer-text-large {
       font-size: 113.034px;
       line-height: 169.551px;
-    }
+    } 
   }
 }
 
@@ -290,8 +305,8 @@ line-height: 160px;
   --breakpoint-lg: 64rem;
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 86rem;
-  --font-mono: var(--font-geist-mono);
-  --font-sans: var(--font-geist-sans);
+  --font-mono: ui-monospace, 'SF Mono', monospace;
+  --font-sans: 'Nunito Sans', 'Nunito Sans Fallback', sans-serif;
 }
 
 @layer utilities {

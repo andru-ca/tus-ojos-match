@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import type { Media } from '@/payload-types'
 import type { CarruselTabBlock } from '@/payload-types'
@@ -11,6 +11,8 @@ const RECOMMENDATION_LABELS: Record<string, string> = {
   dryOff: 'DryOff',
   redOff: 'RedOff',
 }
+
+const SWIPE_THRESHOLD = 50
 
 type Props = CarruselTabBlock
 
@@ -26,6 +28,8 @@ export const CarruselTabComponent: React.FC<Props> = ({
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [progress, setProgress] = useState(0)
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const swipeStart = useRef<number | null>(null)
 
   const currentOption = allOptions[activeIndex]
   const media = blockImage as Media | undefined
@@ -33,6 +37,16 @@ export const CarruselTabComponent: React.FC<Props> = ({
 
   // Duración del auto-avance en segundos
   const AUTO_ADVANCE_DURATION = 10
+
+  const goToNext = useCallback(() => {
+    setActiveIndex((prev) => (prev + 1) % allOptions.length)
+    setProgress(0)
+  }, [allOptions.length])
+
+  const goToPrev = useCallback(() => {
+    setActiveIndex((prev) => (prev - 1 + allOptions.length) % allOptions.length)
+    setProgress(0)
+  }, [allOptions.length])
 
   // Auto-avance con progreso
   useEffect(() => {
@@ -57,16 +71,28 @@ export const CarruselTabComponent: React.FC<Props> = ({
       }, 100)
       return () => clearTimeout(timeout)
     }
-  }, [progress, isPaused])
-
-  const goToNext = () => {
-    setActiveIndex((prev) => (prev + 1) % allOptions.length)
-    setProgress(0)
-  }
+  }, [progress, isPaused, goToNext])
 
   const handleOptionClick = (index: number) => {
     setActiveIndex(index)
     setProgress(0)
+    // Solo al hacer clic: centrar el tab en la fila horizontal (no hace scroll de página)
+    const el = tabRefs.current[index]
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
+  }
+
+  // Swipe en el área de contenido (imagen o columna derecha) para next/prev
+  const handleSwipeStart = (clientX: number) => {
+    swipeStart.current = clientX
+  }
+  const handleSwipeEnd = (clientX: number) => {
+    if (swipeStart.current === null) return
+    const diff = swipeStart.current - clientX
+    if (Math.abs(diff) >= SWIPE_THRESHOLD) {
+      if (diff > 0) goToNext()
+      else goToPrev()
+    }
+    swipeStart.current = null
   }
 
   if (!currentOption) return null
@@ -74,9 +100,8 @@ export const CarruselTabComponent: React.FC<Props> = ({
   return (
     <section 
       className="py-16 md:py-24" 
-      style={{ backgroundColor: backgroundColor || '#F0F5F5' }}
-    >
-      <div className="container mx-auto px-4">
+      style={{ backgroundColor: backgroundColor || '#F0F5F5' }}>
+      <div className="container mx-auto px-4" data-aos="fade-up" data-aos-delay="500" >
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-10 items-center justify-between">
           
           {/* Primera Columna - Título y Opciones */}
@@ -93,15 +118,16 @@ export const CarruselTabComponent: React.FC<Props> = ({
               </div>
             )}
 
-            {/* Opciones vinculadas a su contenido */}
-            <div className="flex flex-row md:flex-col gap-2 items-start overflow-x-auto">
+            {/* Opciones: en mobile scroll al activo + swipe en imagen/contenido */}
+            <div className="flex flex-row md:flex-col gap-2 items-start overflow-x-auto scrollbar-hide">
               {allOptions.map((option: any, index: number) => {
                 const isActive = index === activeIndex
                 return (
                   <button
                     key={index}
+                    ref={(el) => { tabRefs.current[index] = el }}
                     onClick={() => handleOptionClick(index)}
-                    className={`relative px-5 py-3 rounded-full text-left transition-all whitespace-nowrap overflow-visible inline-flex items-center gap-3 ${
+                    className={`relative px-5 py-3 rounded-full text-left transition-all whitespace-nowrap overflow-visible inline-flex items-center gap-3 shrink-0 ${
                       isActive
                         ? 'bg-white text-[#0063B5]  border border-white'
                         : 'bg-transparent border border-[#A2A9B0] text-[#A2A9B0] hover:border-[#005373] hover:text-[#005373]'
@@ -111,19 +137,11 @@ export const CarruselTabComponent: React.FC<Props> = ({
                     {isActive && (
                       <div 
                         className="relative rounded-full bg-[#DDE1E6] flex-shrink-0 overflow-hidden"
-                        style={{ 
-                          width: '24px',
-                          height: '2px',
-                          borderRadius: '99px'
-                        }}
+                        style={{ width: '24px', height: '2px', borderRadius: '99px' }}
                       >
-                        {/* Barra de relleno azul */}
                         <div 
                           className="absolute left-0 top-0 h-full bg-[#005373] transition-all duration-100 ease-linear"
-                          style={{ 
-                            width: `${progress}%`,
-                            borderRadius: '99px'
-                          }}
+                          style={{ width: `${progress}%`, borderRadius: '99px' }}
                         />
                       </div>
                     )}
@@ -134,10 +152,14 @@ export const CarruselTabComponent: React.FC<Props> = ({
             </div>
           </div>
 
-          {/* Segunda Columna - Imagen global del bloque */}
-          <div className="lg:col-span-1 flex justify-center">
+          {/* Segunda Columna - Imagen (en mobile: zona swipe para cambiar opción) */}
+          <div
+            className="lg:col-span-1 flex justify-center touch-pan-y"
+            onTouchStart={(e) => handleSwipeStart(e.touches[0].clientX)}
+            onTouchEnd={(e) => e.changedTouches[0] && handleSwipeEnd(e.changedTouches[0].clientX)}
+          >
             {imageUrl && media && (
-              <div className="relative  aspect-square w-[343px] h-[200px] md:w-[330px] md:h-[580px] mx-auto ">
+              <div className="relative aspect-square w-[343px] h-[200px] md:w-[330px] md:h-[580px] mx-auto">
                 <Image
                   src={imageUrl}
                   alt={media.alt ?? 'Imagen'}
@@ -150,8 +172,12 @@ export const CarruselTabComponent: React.FC<Props> = ({
             )}
           </div>
 
-          {/* Tercera Columna - Contenido */}
-          <div className="lg:col-span-1 flex flex-col gap-1 max-w-[390px]">
+          {/* Tercera Columna - Contenido (en mobile: también swipe para cambiar opción) */}
+          <div
+            className="lg:col-span-1 flex flex-col gap-1 max-w-[390px] touch-pan-y"
+            onTouchStart={(e) => handleSwipeStart(e.touches[0].clientX)}
+            onTouchEnd={(e) => e.changedTouches[0] && handleSwipeEnd(e.changedTouches[0].clientX)}
+          >
             {/* Descripción Principal */}
             {currentOption.description && currentOption.description.root.children.length > 0 && (
               <div className="description-richtext">
