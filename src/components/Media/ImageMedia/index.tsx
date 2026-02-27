@@ -56,6 +56,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     size: sizeFromProps,
     src: srcFromProps,
     loading: loadingFromProps,
+    quality,
   } = props
 
   let width: number | undefined
@@ -81,8 +82,9 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
   const sizes = sizeFromProps
     ? sizeFromProps
     : Object.entries(breakpoints)
-        .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
-        .join(', ')
+        .sort(([, a], [, b]) => a - b)
+        .map(([, value]) => `(max-width: ${value}px) ${value}px`)
+        .join(', ') + ', 100vw'
 
   return (
     <picture className={cn(pictureClassName)}>
@@ -94,7 +96,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         placeholder="blur"
         blurDataURL={placeholderBlur}
         priority={priority}
-        quality={100}
+        quality={quality}
         loading={loading}
         sizes={sizes}
         src={src}
